@@ -1,5 +1,5 @@
-torch>=1.6.0, <=1.8.1
-torchvision>=0.7.0, <=0.9.1
+torch>=1.6.0, <=1.9.0
+torchvision>=0.7.0, <=0.10.0
 numpy>=1.16.6
 tqdm>=4.43.0,<4.50.0
 demjson==2.2.4
@@ -19,6 +19,7 @@ datasets==1.2.1
 matplotlib==3.3.4
 pycocotools==2.0.2
 ftfy==5.8
-pytorch-lightning @ git+https://github.com/PyTorchLightning/pytorch-lightning@7b283e3c
-torchaudio>=0.6.0, <=0.8.1
+pytorch-lightning @ git+https://github.com/PyTorchLightning/pytorch-lightning@f79f0f9d
+torchaudio>=0.6.0, <=0.9.0
 psutil
+pillow==8.3.1

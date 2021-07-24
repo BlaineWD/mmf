@@ -1,0 +1,5 @@
+command: mmf_run config=projects/hateful_memes/configs/visual_bert/direct.yaml model=visual_bert dataset=hateful_memes
+
+log file: save/logs/train_2021_07_23T01_26_50.log
+
+2021-07-23T05:34:36 | INFO | mmf.trainers.callbacks.logistics : progress: 11000/22000, test/hateful_memes/cross_entropy: 1.8497, test/total_loss: 1.8497, test/hateful_memes/accuracy: 0.7090, test/hateful_memes/binary_f1: 0.4850, test/hateful_memes/roc_auc: 0.7359

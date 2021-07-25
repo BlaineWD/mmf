@@ -1,0 +1,6 @@
+mmf_run config=projects/hateful_memes/configs/visual_bert/direct.yaml model=visual_bert dataset=hateful_memes \
+  training.log_interval=50 \
+  training.max_updates=3000 \
+  training.batch_size=16 \
+  training.evaluation_interval=500
+

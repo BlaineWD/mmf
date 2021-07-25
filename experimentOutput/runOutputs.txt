@@ -3,3 +3,18 @@ command: mmf_run config=projects/hateful_memes/configs/visual_bert/direct.yaml m
 log file: save/logs/train_2021_07_23T01_26_50.log
 
 2021-07-23T05:34:36 | INFO | mmf.trainers.callbacks.logistics : progress: 11000/22000, test/hateful_memes/cross_entropy: 1.8497, test/total_loss: 1.8497, test/hateful_memes/accuracy: 0.7090, test/hateful_memes/binary_f1: 0.4850, test/hateful_memes/roc_auc: 0.7359
+
+
+command: mmf_run config=projects/hateful_memes/configs/visual_bert/direct.yaml model=visual_bert dataset=hateful_memes run_type=val checkpoint.resume_file=save/visual_bert_final.pth checkpoint.resume_pretrained=False
+
+output:
+
+2021-07-24T15:19:23 | mmf.utils.general: Total Parameters: 112044290. Trained Parameters: 112044290
+2021-07-24T15:19:23 | mmf.trainers.mmf_trainer: Starting inference on val set
+2021-07-24T15:19:23 | mmf.common.test_reporter: Predicting for hateful_memes
+100%|█████████████████████████████████████████████████| 17/17 [00:06<00:00,  2.64it/s]
+2021-07-24T15:19:29 | mmf.trainers.core.evaluation_loop: Finished training. Loaded 17
+2021-07-24T15:19:29 | mmf.trainers.core.evaluation_loop:  -- skipped 0 batches.
+2021-07-24T15:19:29 | mmf.trainers.callbacks.logistics: val/hateful_memes/cross_entropy: 1.8896, val/total_loss: 1.8896, val/hateful_memes/accuracy: 0.6907, val/hateful_memes/binary_f1: 0.4665, val/hateful_memes/roc_auc: 0.6947
+2021-07-24T15:19:29 | mmf.trainers.callbacks.logistics: Finished run in 07s 611ms
+

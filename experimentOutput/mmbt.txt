@@ -1,0 +1,1009 @@
+mmf_run config=projects/hateful_memes/configs/mmbt/defaults.yaml \
+  model=mmbt \
+  dataset=hateful_memes \
+  training.log_interval=50 \
+  training.max_updates=3000 \
+  training.batch_size=16 \
+  training.evaluation_interval=500
+
+2021-07-24 22:49:00.431335: I tensorflow/stream_executor/platform/default/dso_loader.cc:53] Successfully opened dynamic library libcudart.so.11.0
+/usr/local/lib/python3.7/dist-packages/pytorch_lightning/metrics/__init__.py:44: LightningDeprecationWarning: `pytorch_lightning.metrics.*` module has been renamed to `torchmetrics.*` and split off to its own package (https://github.com/PyTorchLightning/metrics) since v1.3 and will be removed in v1.5
+  "`pytorch_lightning.metrics.*` module has been renamed to `torchmetrics.*` and split off to its own package"
+/usr/local/lib/python3.7/dist-packages/mmf/utils/configuration.py:491: UserWarning: register_resolver() is deprecated.
+See https://github.com/omry/omegaconf/issues/426 for migration instructions.
+
+  OmegaConf.register_resolver("device_count", lambda: device_count)
+/usr/local/lib/python3.7/dist-packages/mmf/utils/configuration.py:492: UserWarning: register_resolver() is deprecated.
+See https://github.com/omry/omegaconf/issues/426 for migration instructions.
+
+  OmegaConf.register_resolver("resolve_cache_dir", resolve_cache_dir)
+/usr/local/lib/python3.7/dist-packages/mmf/utils/configuration.py:493: UserWarning: register_resolver() is deprecated.
+See https://github.com/omry/omegaconf/issues/426 for migration instructions.
+
+  OmegaConf.register_resolver("resolve_dir", resolve_dir)
+/usr/local/lib/python3.7/dist-packages/omegaconf/grammar_visitor.py:257: UserWarning: In the sequence `MMF_USER_DIR,` some elements are missing: please replace them with empty quoted strings. See https://github.com/omry/omegaconf/issues/572 for details.
+  category=UserWarning,
+/usr/local/lib/python3.7/dist-packages/omegaconf/resolvers/__init__.py:13: UserWarning: The `env` resolver is deprecated, see https://github.com/omry/omegaconf/issues/573
+  "The `env` resolver is deprecated, see https://github.com/omry/omegaconf/issues/573"
+2021-07-24T22:49:03 | mmf.utils.configuration: Overriding option config to projects/hateful_memes/configs/mmbt/defaults.yaml
+2021-07-24T22:49:03 | mmf.utils.configuration: Overriding option model to mmbt
+2021-07-24T22:49:03 | mmf.utils.configuration: Overriding option datasets to hateful_memes
+2021-07-24T22:49:03 | mmf.utils.configuration: Overriding option training.log_interval to 50
+2021-07-24T22:49:03 | mmf.utils.configuration: Overriding option training.max_updates to 3000
+2021-07-24T22:49:03 | mmf.utils.configuration: Overriding option training.batch_size to 16
+2021-07-24T22:49:03 | mmf.utils.configuration: Overriding option training.evaluation_interval to 500
+/usr/local/lib/python3.7/dist-packages/omegaconf/grammar_visitor.py:257: UserWarning: In the sequence `MMF_LOG_DIR,` some elements are missing: please replace them with empty quoted strings. See https://github.com/omry/omegaconf/issues/572 for details.
+  category=UserWarning,
+/usr/local/lib/python3.7/dist-packages/omegaconf/grammar_visitor.py:257: UserWarning: In the sequence `MMF_REPORT_DIR,` some elements are missing: please replace them with empty quoted strings. See https://github.com/omry/omegaconf/issues/572 for details.
+  category=UserWarning,
+/usr/local/lib/python3.7/dist-packages/omegaconf/grammar_visitor.py:257: UserWarning: In the sequence `MMF_TENSORBOARD_LOGDIR,` some elements are missing: please replace them with empty quoted strings. See https://github.com/omry/omegaconf/issues/572 for details.
+  category=UserWarning,
+2021-07-24T22:49:03 | mmf: Logging to: ./save/train.log
+2021-07-24T22:49:03 | mmf_cli.run: Namespace(config_override=None, local_rank=None, opts=['config=projects/hateful_memes/configs/mmbt/defaults.yaml', 'model=mmbt', 'dataset=hateful_memes', 'training.log_interval=50', 'training.max_updates=3000', 'training.batch_size=16', 'training.evaluation_interval=500'])
+2021-07-24T22:49:03 | mmf_cli.run: Torch version: 1.9.0+cu102
+2021-07-24T22:49:03 | mmf.utils.general: CUDA Device 0 is: Tesla P100-PCIE-16GB
+2021-07-24T22:49:03 | mmf_cli.run: Using seed 3735364
+2021-07-24T22:49:03 | mmf.trainers.mmf_trainer: Loading datasets
+2021-07-24T22:49:04 | mmf.datasets.multi_datamodule: Multitasking disabled by default for single dataset training
+2021-07-24T22:49:04 | mmf.datasets.multi_datamodule: Multitasking disabled by default for single dataset training
+2021-07-24T22:49:04 | mmf.datasets.multi_datamodule: Multitasking disabled by default for single dataset training
+2021-07-24T22:49:04 | mmf.trainers.mmf_trainer: Loading model
+2021-07-24T22:49:14 | mmf.trainers.mmf_trainer: Loading optimizer
+2021-07-24T22:49:14 | mmf.trainers.mmf_trainer: Loading metrics
+2021-07-24T22:49:14 | mmf.trainers.mmf_trainer: ===== Model =====
+2021-07-24T22:49:14 | mmf.trainers.mmf_trainer: MMBT(
+  (model): MMBTForClassification(
+    (bert): MMBTBase(
+      (mmbt): MMBTModel(
+        (transformer): BertModelJit(
+          (embeddings): BertEmbeddingsJit(
+            (word_embeddings): Embedding(30522, 768, padding_idx=0)
+            (position_embeddings): Embedding(512, 768)
+            (token_type_embeddings): Embedding(2, 768)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+          (encoder): BertEncoderJit(
+            (layer): ModuleList(
+              (0): BertLayerJit(
+                (attention): BertAttentionJit(
+                  (self): BertSelfAttentionJit(
+                    (query): Linear(in_features=768, out_features=768, bias=True)
+                    (key): Linear(in_features=768, out_features=768, bias=True)
+                    (value): Linear(in_features=768, out_features=768, bias=True)
+                    (dropout): Dropout(p=0.1, inplace=False)
+                  )
+                  (output): BertSelfOutput(
+                    (dense): Linear(in_features=768, out_features=768, bias=True)
+                    (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                    (dropout): Dropout(p=0.1, inplace=False)
+                  )
+                )
+                (intermediate): BertIntermediate(
+                  (dense): Linear(in_features=768, out_features=3072, bias=True)
+                )
+                (output): BertOutput(
+                  (dense): Linear(in_features=3072, out_features=768, bias=True)
+                  (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                  (dropout): Dropout(p=0.1, inplace=False)
+                )
+              )
+              (1): BertLayerJit(
+                (attention): BertAttentionJit(
+                  (self): BertSelfAttentionJit(
+                    (query): Linear(in_features=768, out_features=768, bias=True)
+                    (key): Linear(in_features=768, out_features=768, bias=True)
+                    (value): Linear(in_features=768, out_features=768, bias=True)
+                    (dropout): Dropout(p=0.1, inplace=False)
+                  )
+                  (output): BertSelfOutput(
+                    (dense): Linear(in_features=768, out_features=768, bias=True)
+                    (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                    (dropout): Dropout(p=0.1, inplace=False)
+                  )
+                )
+                (intermediate): BertIntermediate(
+                  (dense): Linear(in_features=768, out_features=3072, bias=True)
+                )
+                (output): BertOutput(
+                  (dense): Linear(in_features=3072, out_features=768, bias=True)
+                  (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                  (dropout): Dropout(p=0.1, inplace=False)
+                )
+              )
+              (2): BertLayerJit(
+                (attention): BertAttentionJit(
+                  (self): BertSelfAttentionJit(
+                    (query): Linear(in_features=768, out_features=768, bias=True)
+                    (key): Linear(in_features=768, out_features=768, bias=True)
+                    (value): Linear(in_features=768, out_features=768, bias=True)
+                    (dropout): Dropout(p=0.1, inplace=False)
+                  )
+                  (output): BertSelfOutput(
+                    (dense): Linear(in_features=768, out_features=768, bias=True)
+                    (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                    (dropout): Dropout(p=0.1, inplace=False)
+                  )
+                )
+                (intermediate): BertIntermediate(
+                  (dense): Linear(in_features=768, out_features=3072, bias=True)
+                )
+                (output): BertOutput(
+                  (dense): Linear(in_features=3072, out_features=768, bias=True)
+                  (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                  (dropout): Dropout(p=0.1, inplace=False)
+                )
+              )
+              (3): BertLayerJit(
+                (attention): BertAttentionJit(
+                  (self): BertSelfAttentionJit(
+                    (query): Linear(in_features=768, out_features=768, bias=True)
+                    (key): Linear(in_features=768, out_features=768, bias=True)
+                    (value): Linear(in_features=768, out_features=768, bias=True)
+                    (dropout): Dropout(p=0.1, inplace=False)
+                  )
+                  (output): BertSelfOutput(
+                    (dense): Linear(in_features=768, out_features=768, bias=True)
+                    (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                    (dropout): Dropout(p=0.1, inplace=False)
+                  )
+                )
+                (intermediate): BertIntermediate(
+                  (dense): Linear(in_features=768, out_features=3072, bias=True)
+                )
+                (output): BertOutput(
+                  (dense): Linear(in_features=3072, out_features=768, bias=True)
+                  (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                  (dropout): Dropout(p=0.1, inplace=False)
+                )
+              )
+              (4): BertLayerJit(
+                (attention): BertAttentionJit(
+                  (self): BertSelfAttentionJit(
+                    (query): Linear(in_features=768, out_features=768, bias=True)
+                    (key): Linear(in_features=768, out_features=768, bias=True)
+                    (value): Linear(in_features=768, out_features=768, bias=True)
+                    (dropout): Dropout(p=0.1, inplace=False)
+                  )
+                  (output): BertSelfOutput(
+                    (dense): Linear(in_features=768, out_features=768, bias=True)
+                    (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                    (dropout): Dropout(p=0.1, inplace=False)
+                  )
+                )
+                (intermediate): BertIntermediate(
+                  (dense): Linear(in_features=768, out_features=3072, bias=True)
+                )
+                (output): BertOutput(
+                  (dense): Linear(in_features=3072, out_features=768, bias=True)
+                  (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                  (dropout): Dropout(p=0.1, inplace=False)
+                )
+              )
+              (5): BertLayerJit(
+                (attention): BertAttentionJit(
+                  (self): BertSelfAttentionJit(
+                    (query): Linear(in_features=768, out_features=768, bias=True)
+                    (key): Linear(in_features=768, out_features=768, bias=True)
+                    (value): Linear(in_features=768, out_features=768, bias=True)
+                    (dropout): Dropout(p=0.1, inplace=False)
+                  )
+                  (output): BertSelfOutput(
+                    (dense): Linear(in_features=768, out_features=768, bias=True)
+                    (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                    (dropout): Dropout(p=0.1, inplace=False)
+                  )
+                )
+                (intermediate): BertIntermediate(
+                  (dense): Linear(in_features=768, out_features=3072, bias=True)
+                )
+                (output): BertOutput(
+                  (dense): Linear(in_features=3072, out_features=768, bias=True)
+                  (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                  (dropout): Dropout(p=0.1, inplace=False)
+                )
+              )
+              (6): BertLayerJit(
+                (attention): BertAttentionJit(
+                  (self): BertSelfAttentionJit(
+                    (query): Linear(in_features=768, out_features=768, bias=True)
+                    (key): Linear(in_features=768, out_features=768, bias=True)
+                    (value): Linear(in_features=768, out_features=768, bias=True)
+                    (dropout): Dropout(p=0.1, inplace=False)
+                  )
+                  (output): BertSelfOutput(
+                    (dense): Linear(in_features=768, out_features=768, bias=True)
+                    (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                    (dropout): Dropout(p=0.1, inplace=False)
+                  )
+                )
+                (intermediate): BertIntermediate(
+                  (dense): Linear(in_features=768, out_features=3072, bias=True)
+                )
+                (output): BertOutput(
+                  (dense): Linear(in_features=3072, out_features=768, bias=True)
+                  (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                  (dropout): Dropout(p=0.1, inplace=False)
+                )
+              )
+              (7): BertLayerJit(
+                (attention): BertAttentionJit(
+                  (self): BertSelfAttentionJit(
+                    (query): Linear(in_features=768, out_features=768, bias=True)
+                    (key): Linear(in_features=768, out_features=768, bias=True)
+                    (value): Linear(in_features=768, out_features=768, bias=True)
+                    (dropout): Dropout(p=0.1, inplace=False)
+                  )
+                  (output): BertSelfOutput(
+                    (dense): Linear(in_features=768, out_features=768, bias=True)
+                    (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                    (dropout): Dropout(p=0.1, inplace=False)
+                  )
+                )
+                (intermediate): BertIntermediate(
+                  (dense): Linear(in_features=768, out_features=3072, bias=True)
+                )
+                (output): BertOutput(
+                  (dense): Linear(in_features=3072, out_features=768, bias=True)
+                  (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                  (dropout): Dropout(p=0.1, inplace=False)
+                )
+              )
+              (8): BertLayerJit(
+                (attention): BertAttentionJit(
+                  (self): BertSelfAttentionJit(
+                    (query): Linear(in_features=768, out_features=768, bias=True)
+                    (key): Linear(in_features=768, out_features=768, bias=True)
+                    (value): Linear(in_features=768, out_features=768, bias=True)
+                    (dropout): Dropout(p=0.1, inplace=False)
+                  )
+                  (output): BertSelfOutput(
+                    (dense): Linear(in_features=768, out_features=768, bias=True)
+                    (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                    (dropout): Dropout(p=0.1, inplace=False)
+                  )
+                )
+                (intermediate): BertIntermediate(
+                  (dense): Linear(in_features=768, out_features=3072, bias=True)
+                )
+                (output): BertOutput(
+                  (dense): Linear(in_features=3072, out_features=768, bias=True)
+                  (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                  (dropout): Dropout(p=0.1, inplace=False)
+                )
+              )
+              (9): BertLayerJit(
+                (attention): BertAttentionJit(
+                  (self): BertSelfAttentionJit(
+                    (query): Linear(in_features=768, out_features=768, bias=True)
+                    (key): Linear(in_features=768, out_features=768, bias=True)
+                    (value): Linear(in_features=768, out_features=768, bias=True)
+                    (dropout): Dropout(p=0.1, inplace=False)
+                  )
+                  (output): BertSelfOutput(
+                    (dense): Linear(in_features=768, out_features=768, bias=True)
+                    (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                    (dropout): Dropout(p=0.1, inplace=False)
+                  )
+                )
+                (intermediate): BertIntermediate(
+                  (dense): Linear(in_features=768, out_features=3072, bias=True)
+                )
+                (output): BertOutput(
+                  (dense): Linear(in_features=3072, out_features=768, bias=True)
+                  (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                  (dropout): Dropout(p=0.1, inplace=False)
+                )
+              )
+              (10): BertLayerJit(
+                (attention): BertAttentionJit(
+                  (self): BertSelfAttentionJit(
+                    (query): Linear(in_features=768, out_features=768, bias=True)
+                    (key): Linear(in_features=768, out_features=768, bias=True)
+                    (value): Linear(in_features=768, out_features=768, bias=True)
+                    (dropout): Dropout(p=0.1, inplace=False)
+                  )
+                  (output): BertSelfOutput(
+                    (dense): Linear(in_features=768, out_features=768, bias=True)
+                    (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                    (dropout): Dropout(p=0.1, inplace=False)
+                  )
+                )
+                (intermediate): BertIntermediate(
+                  (dense): Linear(in_features=768, out_features=3072, bias=True)
+                )
+                (output): BertOutput(
+                  (dense): Linear(in_features=3072, out_features=768, bias=True)
+                  (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                  (dropout): Dropout(p=0.1, inplace=False)
+                )
+              )
+              (11): BertLayerJit(
+                (attention): BertAttentionJit(
+                  (self): BertSelfAttentionJit(
+                    (query): Linear(in_features=768, out_features=768, bias=True)
+                    (key): Linear(in_features=768, out_features=768, bias=True)
+                    (value): Linear(in_features=768, out_features=768, bias=True)
+                    (dropout): Dropout(p=0.1, inplace=False)
+                  )
+                  (output): BertSelfOutput(
+                    (dense): Linear(in_features=768, out_features=768, bias=True)
+                    (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                    (dropout): Dropout(p=0.1, inplace=False)
+                  )
+                )
+                (intermediate): BertIntermediate(
+                  (dense): Linear(in_features=768, out_features=3072, bias=True)
+                )
+                (output): BertOutput(
+                  (dense): Linear(in_features=3072, out_features=768, bias=True)
+                  (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+                  (dropout): Dropout(p=0.1, inplace=False)
+                )
+              )
+            )
+          )
+          (pooler): BertPooler(
+            (dense): Linear(in_features=768, out_features=768, bias=True)
+            (activation): Tanh()
+          )
+        )
+        (modal_encoder): ModalEmbeddings(
+          (encoder): ResNet152ImageEncoder(
+            (model): Sequential(
+              (0): Conv2d(3, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3), bias=False)
+              (1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (2): ReLU(inplace=True)
+              (3): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+              (4): Sequential(
+                (0): Bottleneck(
+                  (conv1): Conv2d(64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                  (downsample): Sequential(
+                    (0): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                    (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  )
+                )
+                (1): Bottleneck(
+                  (conv1): Conv2d(256, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+                (2): Bottleneck(
+                  (conv1): Conv2d(256, 64, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+              )
+              (5): Sequential(
+                (0): Bottleneck(
+                  (conv1): Conv2d(256, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                  (downsample): Sequential(
+                    (0): Conv2d(256, 512, kernel_size=(1, 1), stride=(2, 2), bias=False)
+                    (1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  )
+                )
+                (1): Bottleneck(
+                  (conv1): Conv2d(512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+                (2): Bottleneck(
+                  (conv1): Conv2d(512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+                (3): Bottleneck(
+                  (conv1): Conv2d(512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+                (4): Bottleneck(
+                  (conv1): Conv2d(512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+                (5): Bottleneck(
+                  (conv1): Conv2d(512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+                (6): Bottleneck(
+                  (conv1): Conv2d(512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+                (7): Bottleneck(
+                  (conv1): Conv2d(512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+              )
+              (6): Sequential(
+                (0): Bottleneck(
+                  (conv1): Conv2d(512, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                  (downsample): Sequential(
+                    (0): Conv2d(512, 1024, kernel_size=(1, 1), stride=(2, 2), bias=False)
+                    (1): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  )
+                )
+                (1): Bottleneck(
+                  (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+                (2): Bottleneck(
+                  (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+                (3): Bottleneck(
+                  (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+                (4): Bottleneck(
+                  (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+                (5): Bottleneck(
+                  (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+                (6): Bottleneck(
+                  (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+                (7): Bottleneck(
+                  (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+                (8): Bottleneck(
+                  (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+                (9): Bottleneck(
+                  (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+                (10): Bottleneck(
+                  (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+                (11): Bottleneck(
+                  (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+                (12): Bottleneck(
+                  (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+                (13): Bottleneck(
+                  (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+                (14): Bottleneck(
+                  (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+                (15): Bottleneck(
+                  (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+                (16): Bottleneck(
+                  (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+                (17): Bottleneck(
+                  (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+                (18): Bottleneck(
+                  (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+                (19): Bottleneck(
+                  (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+                (20): Bottleneck(
+                  (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+                (21): Bottleneck(
+                  (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+                (22): Bottleneck(
+                  (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+                (23): Bottleneck(
+                  (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+                (24): Bottleneck(
+                  (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+                (25): Bottleneck(
+                  (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+                (26): Bottleneck(
+                  (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+                (27): Bottleneck(
+                  (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+                (28): Bottleneck(
+                  (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+                (29): Bottleneck(
+                  (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+                (30): Bottleneck(
+                  (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+                (31): Bottleneck(
+                  (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+                (32): Bottleneck(
+                  (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+                (33): Bottleneck(
+                  (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+                (34): Bottleneck(
+                  (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+                (35): Bottleneck(
+                  (conv1): Conv2d(1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+              )
+              (7): Sequential(
+                (0): Bottleneck(
+                  (conv1): Conv2d(1024, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                  (downsample): Sequential(
+                    (0): Conv2d(1024, 2048, kernel_size=(1, 1), stride=(2, 2), bias=False)
+                    (1): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  )
+                )
+                (1): Bottleneck(
+                  (conv1): Conv2d(2048, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+                (2): Bottleneck(
+                  (conv1): Conv2d(2048, 512, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+                  (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (conv3): Conv2d(512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False)
+                  (bn3): BatchNorm2d(2048, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+                  (relu): ReLU(inplace=True)
+                )
+              )
+            )
+            (pool): AdaptiveAvgPool2d(output_size=(1, 1))
+          )
+          (proj_embeddings): Linear(in_features=2048, out_features=768, bias=True)
+          (position_embeddings): Embedding(512, 768)
+          (token_type_embeddings): Embedding(2, 768)
+          (word_embeddings): Embedding(30522, 768, padding_idx=0)
+          (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+          (dropout): Dropout(p=0.1, inplace=False)
+        )
+      )
+    )
+    (dropout): Dropout(p=0.1, inplace=False)
+    (classifier): Sequential(
+      (0): BertPredictionHeadTransform(
+        (dense): Linear(in_features=768, out_features=768, bias=True)
+        (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+      )
+      (1): Linear(in_features=768, out_features=2, bias=True)
+    )
+  )
+  (losses): Losses(
+    (losses): ModuleList(
+      (0): MMFLoss(
+        (loss_criterion): CrossEntropyLoss(
+          (loss_fn): CrossEntropyLoss()
+        )
+      )
+    )
+  )
+)
+2021-07-24T22:49:14 | mmf.utils.general: Total Parameters: 169793346. Trained Parameters: 169793346
+2021-07-24T22:49:14 | mmf.trainers.core.training_loop: Starting training...
+WARNING 2021-07-24T22:49:15 | py.warnings: /usr/local/lib/python3.7/dist-packages/torch/nn/functional.py:718: UserWarning: Named tensors and all their associated APIs are an experimental feature and subject to change. Please do not use them for anything important until they are released as stable. (Triggered internally at  /pytorch/c10/core/TensorImpl.h:1156.)
+  return torch.max_pool2d(input, kernel_size, stride, padding, dilation, ceil_mode)
+
+WARNING 2021-07-24T22:49:15 | py.warnings: /usr/local/lib/python3.7/dist-packages/torch/nn/functional.py:718: UserWarning: Named tensors and all their associated APIs are an experimental feature and subject to change. Please do not use them for anything important until they are released as stable. (Triggered internally at  /pytorch/c10/core/TensorImpl.h:1156.)
+  return torch.max_pool2d(input, kernel_size, stride, padding, dilation, ceil_mode)
+
+2021-07-24T22:49:41 | mmf.trainers.callbacks.logistics: progress: 50/3000, train/hateful_memes/cross_entropy: 0.7914, train/hateful_memes/cross_entropy/avg: 0.7914, train/total_loss: 0.7914, train/total_loss/avg: 0.7914, max mem: 7139.0, experiment: run, epoch: 1, num_updates: 50, iterations: 50, max_updates: 3000, lr: 0., ups: 1.85, time: 27s 163ms, time_since_start: 27s 250ms, eta: 28m 31s 645ms
+2021-07-24T22:50:07 | mmf.trainers.callbacks.logistics: progress: 100/3000, train/hateful_memes/cross_entropy: 0.6470, train/hateful_memes/cross_entropy/avg: 0.7192, train/total_loss: 0.6470, train/total_loss/avg: 0.7192, max mem: 7139.0, experiment: run, epoch: 1, num_updates: 100, iterations: 100, max_updates: 3000, lr: 0., ups: 1.92, time: 26s 323ms, time_since_start: 53s 574ms, eta: 27m 10s 610ms
+2021-07-24T22:50:33 | mmf.trainers.callbacks.logistics: progress: 150/3000, train/hateful_memes/cross_entropy: 0.6470, train/hateful_memes/cross_entropy/avg: 0.6775, train/total_loss: 0.6470, train/total_loss/avg: 0.6775, max mem: 7139.0, experiment: run, epoch: 1, num_updates: 150, iterations: 150, max_updates: 3000, lr: 0., ups: 1.92, time: 26s 224ms, time_since_start: 01m 19s 798ms, eta: 26m 36s 425ms
+2021-07-24T22:51:00 | mmf.trainers.callbacks.logistics: progress: 200/3000, train/hateful_memes/cross_entropy: 0.6470, train/hateful_memes/cross_entropy/avg: 0.6789, train/total_loss: 0.6470, train/total_loss/avg: 0.6789, max mem: 7139.0, experiment: run, epoch: 1, num_updates: 200, iterations: 200, max_updates: 3000, lr: 0., ups: 1.92, time: 26s 276ms, time_since_start: 01m 46s 075ms, eta: 26m 11s 533ms
+2021-07-24T22:51:26 | mmf.trainers.callbacks.logistics: progress: 250/3000, train/hateful_memes/cross_entropy: 0.6830, train/hateful_memes/cross_entropy/avg: 0.6986, train/total_loss: 0.6830, train/total_loss/avg: 0.6986, max mem: 7139.0, experiment: run, epoch: 1, num_updates: 250, iterations: 250, max_updates: 3000, lr: 0., ups: 1.92, time: 26s 301ms, time_since_start: 02m 12s 376ms, eta: 25m 44s 962ms
+2021-07-24T22:51:52 | mmf.trainers.callbacks.logistics: progress: 300/3000, train/hateful_memes/cross_entropy: 0.6470, train/hateful_memes/cross_entropy/avg: 0.6810, train/total_loss: 0.6470, train/total_loss/avg: 0.6810, max mem: 7139.0, experiment: run, epoch: 1, num_updates: 300, iterations: 300, max_updates: 3000, lr: 0., ups: 1.92, time: 26s 304ms, time_since_start: 02m 38s 681ms, eta: 25m 17s 014ms
+2021-07-24T22:52:19 | mmf.trainers.callbacks.logistics: progress: 350/3000, train/hateful_memes/cross_entropy: 0.6830, train/hateful_memes/cross_entropy/avg: 0.6913, train/total_loss: 0.6830, train/total_loss/avg: 0.6913, max mem: 7139.0, experiment: run, epoch: 1, num_updates: 350, iterations: 350, max_updates: 3000, lr: 0., ups: 1.92, time: 26s 230ms, time_since_start: 03m 04s 911ms, eta: 24m 44s 752ms
+2021-07-24T22:52:45 | mmf.trainers.callbacks.logistics: progress: 400/3000, train/hateful_memes/cross_entropy: 0.6830, train/hateful_memes/cross_entropy/avg: 0.6903, train/total_loss: 0.6830, train/total_loss/avg: 0.6903, max mem: 7139.0, experiment: run, epoch: 1, num_updates: 400, iterations: 400, max_updates: 3000, lr: 0., ups: 1.92, time: 26s 266ms, time_since_start: 03m 31s 177ms, eta: 24m 18s 714ms
+2021-07-24T22:53:11 | mmf.trainers.callbacks.logistics: progress: 450/3000, train/hateful_memes/cross_entropy: 0.6832, train/hateful_memes/cross_entropy/avg: 0.6932, train/total_loss: 0.6832, train/total_loss/avg: 0.6932, max mem: 7139.0, experiment: run, epoch: 1, num_updates: 450, iterations: 450, max_updates: 3000, lr: 0., ups: 1.92, time: 26s 287ms, time_since_start: 03m 57s 464ms, eta: 23m 51s 802ms
+2021-07-24T22:53:37 | mmf.trainers.callbacks.logistics: progress: 500/3000, train/hateful_memes/cross_entropy: 0.6830, train/hateful_memes/cross_entropy/avg: 0.6889, train/total_loss: 0.6830, train/total_loss/avg: 0.6889, max mem: 7139.0, experiment: run, epoch: 1, num_updates: 500, iterations: 500, max_updates: 3000, lr: 0., ups: 1.92, time: 26s 340ms, time_since_start: 04m 23s 805ms, eta: 23m 26s 590ms
+2021-07-24T22:53:37 | mmf.trainers.core.training_loop: Evaluation time. Running on full validation set...
+2021-07-24T22:53:37 | mmf.common.test_reporter: Predicting for hateful_memes
+2021-07-24T22:53:43 | mmf.trainers.core.evaluation_loop: Finished training. Loaded 34
+2021-07-24T22:53:43 | mmf.trainers.core.evaluation_loop:  -- skipped 0 batches.
+2021-07-24T22:53:43 | mmf.utils.checkpoint: Checkpoint save operation started!
+2021-07-24T22:53:50 | mmf.utils.checkpoint: Saving best checkpoint
+2021-07-24T22:54:17 | mmf.utils.checkpoint: Saving current checkpoint
+2021-07-24T22:54:40 | mmf.utils.checkpoint: Checkpoint save operation finished!
+2021-07-24T22:54:45 | mmf.trainers.callbacks.logistics: progress: 500/3000, val/hateful_memes/cross_entropy: 0.6591, val/total_loss: 0.6591, val/hateful_memes/accuracy: 0.6389, val/hateful_memes/binary_f1: 0.2529, val/hateful_memes/roc_auc: 0.5534, num_updates: 500, epoch: 1, iterations: 500, max_updates: 3000, val_time: 01m 07s 970ms, best_update: 500, best_iteration: 500, best_val/hateful_memes/roc_auc: 0.553441
+2021-07-24T22:55:13 | mmf.trainers.callbacks.logistics: progress: 550/3000, train/hateful_memes/cross_entropy: 0.6830, train/hateful_memes/cross_entropy/avg: 0.6713, train/total_loss: 0.6830, train/total_loss/avg: 0.6713, max mem: 7139.0, experiment: run, epoch: 2, num_updates: 550, iterations: 550, max_updates: 3000, lr: 0., ups: 1.85, time: 27s 222ms, time_since_start: 05m 59s 000ms, eta: 23m 44s 607ms
+2021-07-24T22:55:39 | mmf.trainers.callbacks.logistics: progress: 600/3000, train/hateful_memes/cross_entropy: 0.6501, train/hateful_memes/cross_entropy/avg: 0.6590, train/total_loss: 0.6501, train/total_loss/avg: 0.6590, max mem: 7139.0, experiment: run, epoch: 2, num_updates: 600, iterations: 600, max_updates: 3000, lr: 0., ups: 1.92, time: 26s 245ms, time_since_start: 06m 25s 245ms, eta: 22m 25s 441ms
+2021-07-24T22:56:05 | mmf.trainers.callbacks.logistics: progress: 650/3000, train/hateful_memes/cross_entropy: 0.6830, train/hateful_memes/cross_entropy/avg: 0.6634, train/total_loss: 0.6830, train/total_loss/avg: 0.6634, max mem: 7139.0, experiment: run, epoch: 2, num_updates: 650, iterations: 650, max_updates: 3000, lr: 0., ups: 1.92, time: 26s 311ms, time_since_start: 06m 51s 556ms, eta: 22m 729ms
+2021-07-24T22:56:31 | mmf.trainers.callbacks.logistics: progress: 700/3000, train/hateful_memes/cross_entropy: 0.6830, train/hateful_memes/cross_entropy/avg: 0.6672, train/total_loss: 0.6830, train/total_loss/avg: 0.6672, max mem: 7139.0, experiment: run, epoch: 2, num_updates: 700, iterations: 700, max_updates: 3000, lr: 0., ups: 1.92, time: 26s 252ms, time_since_start: 07m 17s 809ms, eta: 21m 29s 753ms
+2021-07-24T22:56:58 | mmf.trainers.callbacks.logistics: progress: 750/3000, train/hateful_memes/cross_entropy: 0.6830, train/hateful_memes/cross_entropy/avg: 0.6608, train/total_loss: 0.6830, train/total_loss/avg: 0.6608, max mem: 7139.0, experiment: run, epoch: 2, num_updates: 750, iterations: 750, max_updates: 3000, lr: 0., ups: 1.92, time: 26s 284ms, time_since_start: 07m 44s 094ms, eta: 21m 03s 250ms
+2021-07-24T22:57:24 | mmf.trainers.callbacks.logistics: progress: 800/3000, train/hateful_memes/cross_entropy: 0.6501, train/hateful_memes/cross_entropy/avg: 0.6516, train/total_loss: 0.6501, train/total_loss/avg: 0.6516, max mem: 7139.0, experiment: run, epoch: 2, num_updates: 800, iterations: 800, max_updates: 3000, lr: 0., ups: 1.92, time: 26s 255ms, time_since_start: 08m 10s 350ms, eta: 20m 33s 799ms
+2021-07-24T22:57:50 | mmf.trainers.callbacks.logistics: progress: 850/3000, train/hateful_memes/cross_entropy: 0.6501, train/hateful_memes/cross_entropy/avg: 0.6493, train/total_loss: 0.6501, train/total_loss/avg: 0.6493, max mem: 7139.0, experiment: run, epoch: 2, num_updates: 850, iterations: 850, max_updates: 3000, lr: 0., ups: 1.92, time: 26s 223ms, time_since_start: 08m 36s 573ms, eta: 20m 04s 274ms
+2021-07-24T22:58:17 | mmf.trainers.callbacks.logistics: progress: 900/3000, train/hateful_memes/cross_entropy: 0.6470, train/hateful_memes/cross_entropy/avg: 0.6418, train/total_loss: 0.6470, train/total_loss/avg: 0.6418, max mem: 7139.0, experiment: run, epoch: 2, num_updates: 900, iterations: 900, max_updates: 3000, lr: 0., ups: 1.92, time: 26s 300ms, time_since_start: 09m 02s 873ms, eta: 19m 39s 728ms
+2021-07-24T22:58:43 | mmf.trainers.callbacks.logistics: progress: 950/3000, train/hateful_memes/cross_entropy: 0.6470, train/hateful_memes/cross_entropy/avg: 0.6337, train/total_loss: 0.6470, train/total_loss/avg: 0.6337, max mem: 7139.0, experiment: run, epoch: 2, num_updates: 950, iterations: 950, max_updates: 3000, lr: 0., ups: 1.92, time: 26s 312ms, time_since_start: 09m 29s 185ms, eta: 19m 12s 156ms
+2021-07-24T22:59:09 | mmf.trainers.callbacks.checkpoint: Checkpoint time. Saving a checkpoint.
+2021-07-24T22:59:09 | mmf.utils.checkpoint: Checkpoint save operation started!
+2021-07-24T22:59:17 | mmf.utils.checkpoint: Saving current checkpoint
+2021-07-24T22:59:43 | mmf.utils.checkpoint: Checkpoint save operation finished!
+2021-07-24T22:59:43 | mmf.trainers.callbacks.logistics: progress: 1000/3000, train/hateful_memes/cross_entropy: 0.6127, train/hateful_memes/cross_entropy/avg: 0.6273, train/total_loss: 0.6127, train/total_loss/avg: 0.6273, max mem: 7139.0, experiment: run, epoch: 2, num_updates: 1000, iterations: 1000, max_updates: 3000, lr: 0.00001, ups: 0.83, time: 01m 455ms, time_since_start: 10m 29s 641ms, eta: 43m 02s 656ms
+2021-07-24T22:59:43 | mmf.trainers.core.training_loop: Evaluation time. Running on full validation set...
+2021-07-24T22:59:43 | mmf.common.test_reporter: Predicting for hateful_memes
+2021-07-24T22:59:51 | mmf.trainers.core.evaluation_loop: Finished training. Loaded 34
+2021-07-24T22:59:51 | mmf.trainers.core.evaluation_loop:  -- skipped 0 batches.
+2021-07-24T22:59:51 | mmf.utils.checkpoint: Checkpoint save operation started!
+2021-07-24T23:00:09 | mmf.utils.checkpoint: Saving best checkpoint
+2021-07-24T23:00:32 | mmf.utils.checkpoint: Saving current checkpoint
+2021-07-24T23:00:58 | mmf.utils.checkpoint: Checkpoint save operation finished!
+2021-07-24T23:00:59 | mmf.trainers.callbacks.logistics: progress: 1000/3000, val/hateful_memes/cross_entropy: 0.7243, val/total_loss: 0.7243, val/hateful_memes/accuracy: 0.6333, val/hateful_memes/binary_f1: 0.2721, val/hateful_memes/roc_auc: 0.5936, num_updates: 1000, epoch: 2, iterations: 1000, max_updates: 3000, val_time: 01m 15s 224ms, best_update: 1000, best_iteration: 1000, best_val/hateful_memes/roc_auc: 0.593574
+2021-07-24T23:01:25 | mmf.trainers.callbacks.logistics: progress: 1050/3000, train/hateful_memes/cross_entropy: 0.5942, train/hateful_memes/cross_entropy/avg: 0.6182, train/total_loss: 0.5942, train/total_loss/avg: 0.6182, max mem: 7139.0, experiment: run, epoch: 2, num_updates: 1050, iterations: 1050, max_updates: 3000, lr: 0.00001, ups: 1.92, time: 26s 719ms, time_since_start: 12m 11s 587ms, eta: 18m 32s 914ms
+2021-07-24T23:01:52 | mmf.trainers.callbacks.logistics: progress: 1100/3000, train/hateful_memes/cross_entropy: 0.5929, train/hateful_memes/cross_entropy/avg: 0.6155, train/total_loss: 0.5929, train/total_loss/avg: 0.6155, max mem: 7139.0, experiment: run, epoch: 3, num_updates: 1100, iterations: 1100, max_updates: 3000, lr: 0.00001, ups: 1.92, time: 26s 684ms, time_since_start: 12m 38s 272ms, eta: 18m 02s 979ms
+2021-07-24T23:02:18 | mmf.trainers.callbacks.logistics: progress: 1150/3000, train/hateful_memes/cross_entropy: 0.5929, train/hateful_memes/cross_entropy/avg: 0.6206, train/total_loss: 0.5929, train/total_loss/avg: 0.6206, max mem: 7139.0, experiment: run, epoch: 3, num_updates: 1150, iterations: 1150, max_updates: 3000, lr: 0.00001, ups: 1.92, time: 26s 196ms, time_since_start: 13m 04s 468ms, eta: 17m 15s 185ms
+2021-07-24T23:02:44 | mmf.trainers.callbacks.logistics: progress: 1200/3000, train/hateful_memes/cross_entropy: 0.5704, train/hateful_memes/cross_entropy/avg: 0.6160, train/total_loss: 0.5704, train/total_loss/avg: 0.6160, max mem: 7139.0, experiment: run, epoch: 3, num_updates: 1200, iterations: 1200, max_updates: 3000, lr: 0.00001, ups: 1.92, time: 26s 185ms, time_since_start: 13m 30s 654ms, eta: 16m 46s 776ms
+2021-07-24T23:03:11 | mmf.trainers.callbacks.logistics: progress: 1250/3000, train/hateful_memes/cross_entropy: 0.5595, train/hateful_memes/cross_entropy/avg: 0.6116, train/total_loss: 0.5595, train/total_loss/avg: 0.6116, max mem: 7139.0, experiment: run, epoch: 3, num_updates: 1250, iterations: 1250, max_updates: 3000, lr: 0.00001, ups: 1.92, time: 26s 239ms, time_since_start: 13m 56s 893ms, eta: 16m 20s 824ms
+2021-07-24T23:03:37 | mmf.trainers.callbacks.logistics: progress: 1300/3000, train/hateful_memes/cross_entropy: 0.5240, train/hateful_memes/cross_entropy/avg: 0.6052, train/total_loss: 0.5240, train/total_loss/avg: 0.6052, max mem: 7139.0, experiment: run, epoch: 3, num_updates: 1300, iterations: 1300, max_updates: 3000, lr: 0.00001, ups: 1.92, time: 26s 209ms, time_since_start: 14m 23s 103ms, eta: 15m 51s 731ms
+2021-07-24T23:04:03 | mmf.trainers.callbacks.logistics: progress: 1350/3000, train/hateful_memes/cross_entropy: 0.5240, train/hateful_memes/cross_entropy/avg: 0.6030, train/total_loss: 0.5240, train/total_loss/avg: 0.6030, max mem: 7139.0, experiment: run, epoch: 3, num_updates: 1350, iterations: 1350, max_updates: 3000, lr: 0.00001, ups: 1.92, time: 26s 170ms, time_since_start: 14m 49s 273ms, eta: 15m 22s 346ms
+2021-07-24T23:04:29 | mmf.trainers.callbacks.logistics: progress: 1400/3000, train/hateful_memes/cross_entropy: 0.5240, train/hateful_memes/cross_entropy/avg: 0.6023, train/total_loss: 0.5240, train/total_loss/avg: 0.6023, max mem: 7139.0, experiment: run, epoch: 3, num_updates: 1400, iterations: 1400, max_updates: 3000, lr: 0.00001, ups: 1.92, time: 26s 209ms, time_since_start: 15m 15s 483ms, eta: 14m 55s 730ms
+2021-07-24T23:04:55 | mmf.trainers.callbacks.logistics: progress: 1450/3000, train/hateful_memes/cross_entropy: 0.5240, train/hateful_memes/cross_entropy/avg: 0.6112, train/total_loss: 0.5240, train/total_loss/avg: 0.6112, max mem: 7139.0, experiment: run, epoch: 3, num_updates: 1450, iterations: 1450, max_updates: 3000, lr: 0.00001, ups: 1.92, time: 26s 335ms, time_since_start: 15m 41s 818ms, eta: 14m 31s 919ms
+2021-07-24T23:05:22 | mmf.trainers.callbacks.logistics: progress: 1500/3000, train/hateful_memes/cross_entropy: 0.5153, train/hateful_memes/cross_entropy/avg: 0.6078, train/total_loss: 0.5153, train/total_loss/avg: 0.6078, max mem: 7139.0, experiment: run, epoch: 3, num_updates: 1500, iterations: 1500, max_updates: 3000, lr: 0.00001, ups: 1.92, time: 26s 169ms, time_since_start: 16m 07s 988ms, eta: 13m 58s 475ms
+2021-07-24T23:05:22 | mmf.trainers.core.training_loop: Evaluation time. Running on full validation set...
+2021-07-24T23:05:22 | mmf.common.test_reporter: Predicting for hateful_memes
+2021-07-24T23:05:27 | mmf.trainers.core.evaluation_loop: Finished training. Loaded 34
+2021-07-24T23:05:27 | mmf.trainers.core.evaluation_loop:  -- skipped 0 batches.
+2021-07-24T23:05:27 | mmf.utils.checkpoint: Checkpoint save operation started!
+2021-07-24T23:05:35 | mmf.utils.checkpoint: Saving best checkpoint
+2021-07-24T23:06:00 | mmf.utils.checkpoint: Saving current checkpoint
+2021-07-24T23:06:25 | mmf.utils.checkpoint: Checkpoint save operation finished!
+2021-07-24T23:06:30 | mmf.trainers.callbacks.logistics: progress: 1500/3000, val/hateful_memes/cross_entropy: 0.7459, val/total_loss: 0.7459, val/hateful_memes/accuracy: 0.6259, val/hateful_memes/binary_f1: 0.2463, val/hateful_memes/roc_auc: 0.6065, num_updates: 1500, epoch: 3, iterations: 1500, max_updates: 3000, val_time: 01m 08s 193ms, best_update: 1500, best_iteration: 1500, best_val/hateful_memes/roc_auc: 0.606515
+2021-07-24T23:06:56 | mmf.trainers.callbacks.logistics: progress: 1550/3000, train/hateful_memes/cross_entropy: 0.5240, train/hateful_memes/cross_entropy/avg: 0.6163, train/total_loss: 0.5240, train/total_loss/avg: 0.6163, max mem: 7139.0, experiment: run, epoch: 3, num_updates: 1550, iterations: 1550, max_updates: 3000, lr: 0.00001, ups: 1.92, time: 26s 582ms, time_since_start: 17m 42s 766ms, eta: 13m 43s 327ms
+2021-07-24T23:07:23 | mmf.trainers.callbacks.logistics: progress: 1600/3000, train/hateful_memes/cross_entropy: 0.5153, train/hateful_memes/cross_entropy/avg: 0.6109, train/total_loss: 0.5153, train/total_loss/avg: 0.6109, max mem: 7139.0, experiment: run, epoch: 4, num_updates: 1600, iterations: 1600, max_updates: 3000, lr: 0.00001, ups: 1.92, time: 26s 571ms, time_since_start: 18m 09s 338ms, eta: 13m 14s 607ms
+2021-07-24T23:07:49 | mmf.trainers.callbacks.logistics: progress: 1650/3000, train/hateful_memes/cross_entropy: 0.5153, train/hateful_memes/cross_entropy/avg: 0.6148, train/total_loss: 0.5153, train/total_loss/avg: 0.6148, max mem: 7139.0, experiment: run, epoch: 4, num_updates: 1650, iterations: 1650, max_updates: 3000, lr: 0.00001, ups: 1.92, time: 26s 163ms, time_since_start: 18m 35s 502ms, eta: 12m 34s 452ms
+2021-07-24T23:08:15 | mmf.trainers.callbacks.logistics: progress: 1700/3000, train/hateful_memes/cross_entropy: 0.5136, train/hateful_memes/cross_entropy/avg: 0.6080, train/total_loss: 0.5136, train/total_loss/avg: 0.6080, max mem: 7139.0, experiment: run, epoch: 4, num_updates: 1700, iterations: 1700, max_updates: 3000, lr: 0.00001, ups: 1.92, time: 26s 143ms, time_since_start: 19m 01s 645ms, eta: 12m 05s 946ms
+2021-07-24T23:08:41 | mmf.trainers.callbacks.logistics: progress: 1750/3000, train/hateful_memes/cross_entropy: 0.5105, train/hateful_memes/cross_entropy/avg: 0.6051, train/total_loss: 0.5105, train/total_loss/avg: 0.6051, max mem: 7139.0, experiment: run, epoch: 4, num_updates: 1750, iterations: 1750, max_updates: 3000, lr: 0.00001, ups: 1.92, time: 26s 203ms, time_since_start: 19m 27s 848ms, eta: 11m 39s 623ms
+2021-07-24T23:09:08 | mmf.trainers.callbacks.logistics: progress: 1800/3000, train/hateful_memes/cross_entropy: 0.5104, train/hateful_memes/cross_entropy/avg: 0.6008, train/total_loss: 0.5104, train/total_loss/avg: 0.6008, max mem: 7139.0, experiment: run, epoch: 4, num_updates: 1800, iterations: 1800, max_updates: 3000, lr: 0.00001, ups: 1.92, time: 26s 182ms, time_since_start: 19m 54s 030ms, eta: 11m 11s 102ms
+2021-07-24T23:09:34 | mmf.trainers.callbacks.logistics: progress: 1850/3000, train/hateful_memes/cross_entropy: 0.5056, train/hateful_memes/cross_entropy/avg: 0.5943, train/total_loss: 0.5056, train/total_loss/avg: 0.5943, max mem: 7139.0, experiment: run, epoch: 4, num_updates: 1850, iterations: 1850, max_updates: 3000, lr: 0.00001, ups: 1.92, time: 26s 237ms, time_since_start: 20m 20s 268ms, eta: 10m 44s 493ms
+2021-07-24T23:10:00 | mmf.trainers.callbacks.logistics: progress: 1900/3000, train/hateful_memes/cross_entropy: 0.5056, train/hateful_memes/cross_entropy/avg: 0.5945, train/total_loss: 0.5056, train/total_loss/avg: 0.5945, max mem: 7139.0, experiment: run, epoch: 4, num_updates: 1900, iterations: 1900, max_updates: 3000, lr: 0.00001, ups: 1.92, time: 26s 183ms, time_since_start: 20m 46s 451ms, eta: 10m 15s 209ms
+2021-07-24T23:10:26 | mmf.trainers.callbacks.logistics: progress: 1950/3000, train/hateful_memes/cross_entropy: 0.5056, train/hateful_memes/cross_entropy/avg: 0.5906, train/total_loss: 0.5056, train/total_loss/avg: 0.5906, max mem: 7139.0, experiment: run, epoch: 4, num_updates: 1950, iterations: 1950, max_updates: 3000, lr: 0.00001, ups: 1.92, time: 26s 372ms, time_since_start: 21m 12s 824ms, eta: 09m 51s 486ms
+2021-07-24T23:10:53 | mmf.trainers.callbacks.checkpoint: Checkpoint time. Saving a checkpoint.
+2021-07-24T23:10:53 | mmf.utils.checkpoint: Checkpoint save operation started!
+2021-07-24T23:11:00 | mmf.utils.checkpoint: Saving current checkpoint
+2021-07-24T23:11:29 | mmf.utils.checkpoint: Checkpoint save operation finished!
+2021-07-24T23:11:29 | mmf.trainers.callbacks.logistics: progress: 2000/3000, train/hateful_memes/cross_entropy: 0.5056, train/hateful_memes/cross_entropy/avg: 0.5851, train/total_loss: 0.5056, train/total_loss/avg: 0.5851, max mem: 7139.0, experiment: run, epoch: 4, num_updates: 2000, iterations: 2000, max_updates: 3000, lr: 0.00001, ups: 0.81, time: 01m 02s 451ms, time_since_start: 22m 15s 275ms, eta: 22m 13s 954ms
+2021-07-24T23:11:29 | mmf.trainers.core.training_loop: Evaluation time. Running on full validation set...
+2021-07-24T23:11:29 | mmf.common.test_reporter: Predicting for hateful_memes
+2021-07-24T23:11:35 | mmf.trainers.core.evaluation_loop: Finished training. Loaded 34
+2021-07-24T23:11:35 | mmf.trainers.core.evaluation_loop:  -- skipped 0 batches.
+2021-07-24T23:11:35 | mmf.utils.checkpoint: Checkpoint save operation started!
+2021-07-24T23:11:54 | mmf.utils.checkpoint: Saving best checkpoint
+2021-07-24T23:12:16 | mmf.utils.checkpoint: Saving current checkpoint
+2021-07-24T23:12:44 | mmf.utils.checkpoint: Checkpoint save operation finished!
+2021-07-24T23:12:45 | mmf.trainers.callbacks.logistics: progress: 2000/3000, val/hateful_memes/cross_entropy: 0.7419, val/total_loss: 0.7419, val/hateful_memes/accuracy: 0.5981, val/hateful_memes/binary_f1: 0.4364, val/hateful_memes/roc_auc: 0.6276, num_updates: 2000, epoch: 4, iterations: 2000, max_updates: 3000, val_time: 01m 16s 091ms, best_update: 2000, best_iteration: 2000, best_val/hateful_memes/roc_auc: 0.627647
+2021-07-24T23:13:12 | mmf.trainers.callbacks.logistics: progress: 2050/3000, train/hateful_memes/cross_entropy: 0.5056, train/hateful_memes/cross_entropy/avg: 0.5800, train/total_loss: 0.5056, train/total_loss/avg: 0.5800, max mem: 7139.0, experiment: run, epoch: 4, num_updates: 2050, iterations: 2050, max_updates: 3000, lr: 0.00001, ups: 1.92, time: 26s 651ms, time_since_start: 23m 58s 020ms, eta: 09m 816ms
+2021-07-24T23:13:38 | mmf.trainers.callbacks.logistics: progress: 2100/3000, train/hateful_memes/cross_entropy: 0.5046, train/hateful_memes/cross_entropy/avg: 0.5755, train/total_loss: 0.5046, train/total_loss/avg: 0.5755, max mem: 7139.0, experiment: run, epoch: 4, num_updates: 2100, iterations: 2100, max_updates: 3000, lr: 0.00001, ups: 1.92, time: 26s 241ms, time_since_start: 24m 24s 262ms, eta: 08m 24s 472ms
+2021-07-24T23:14:05 | mmf.trainers.callbacks.logistics: progress: 2150/3000, train/hateful_memes/cross_entropy: 0.4517, train/hateful_memes/cross_entropy/avg: 0.5681, train/total_loss: 0.4517, train/total_loss/avg: 0.5681, max mem: 7139.0, experiment: run, epoch: 5, num_updates: 2150, iterations: 2150, max_updates: 3000, lr: 0.00001, ups: 1.92, time: 26s 720ms, time_since_start: 24m 50s 982ms, eta: 08m 05s 130ms
+2021-07-24T23:14:31 | mmf.trainers.callbacks.logistics: progress: 2200/3000, train/hateful_memes/cross_entropy: 0.4459, train/hateful_memes/cross_entropy/avg: 0.5628, train/total_loss: 0.4459, train/total_loss/avg: 0.5628, max mem: 7139.0, experiment: run, epoch: 5, num_updates: 2200, iterations: 2200, max_updates: 3000, lr: 0.00001, ups: 1.92, time: 26s 148ms, time_since_start: 25m 17s 130ms, eta: 07m 26s 819ms
+2021-07-24T23:14:57 | mmf.trainers.callbacks.logistics: progress: 2250/3000, train/hateful_memes/cross_entropy: 0.4435, train/hateful_memes/cross_entropy/avg: 0.5588, train/total_loss: 0.4435, train/total_loss/avg: 0.5588, max mem: 7139.0, experiment: run, epoch: 5, num_updates: 2250, iterations: 2250, max_updates: 3000, lr: 0.00001, ups: 1.92, time: 26s 191ms, time_since_start: 25m 43s 321ms, eta: 06m 59s 582ms
+2021-07-24T23:15:23 | mmf.trainers.callbacks.logistics: progress: 2300/3000, train/hateful_memes/cross_entropy: 0.4429, train/hateful_memes/cross_entropy/avg: 0.5496, train/total_loss: 0.4429, train/total_loss/avg: 0.5496, max mem: 7139.0, experiment: run, epoch: 5, num_updates: 2300, iterations: 2300, max_updates: 3000, lr: 0.00001, ups: 1.92, time: 26s 131ms, time_since_start: 26m 09s 452ms, eta: 06m 30s 714ms
+2021-07-24T23:15:49 | mmf.trainers.callbacks.logistics: progress: 2350/3000, train/hateful_memes/cross_entropy: 0.3945, train/hateful_memes/cross_entropy/avg: 0.5411, train/total_loss: 0.3945, train/total_loss/avg: 0.5411, max mem: 7139.0, experiment: run, epoch: 5, num_updates: 2350, iterations: 2350, max_updates: 3000, lr: 0.00001, ups: 1.92, time: 26s 249ms, time_since_start: 26m 35s 702ms, eta: 06m 04s 448ms
+2021-07-24T23:16:16 | mmf.trainers.callbacks.logistics: progress: 2400/3000, train/hateful_memes/cross_entropy: 0.3945, train/hateful_memes/cross_entropy/avg: 0.5411, train/total_loss: 0.3945, train/total_loss/avg: 0.5411, max mem: 7139.0, experiment: run, epoch: 5, num_updates: 2400, iterations: 2400, max_updates: 3000, lr: 0.00001, ups: 1.92, time: 26s 247ms, time_since_start: 27m 01s 950ms, eta: 05m 36s 393ms
+2021-07-24T23:16:42 | mmf.trainers.callbacks.logistics: progress: 2450/3000, train/hateful_memes/cross_entropy: 0.3842, train/hateful_memes/cross_entropy/avg: 0.5367, train/total_loss: 0.3842, train/total_loss/avg: 0.5367, max mem: 7139.0, experiment: run, epoch: 5, num_updates: 2450, iterations: 2450, max_updates: 3000, lr: 0.00001, ups: 1.92, time: 26s 198ms, time_since_start: 27m 28s 149ms, eta: 05m 07s 785ms
+2021-07-24T23:17:08 | mmf.trainers.callbacks.logistics: progress: 2500/3000, train/hateful_memes/cross_entropy: 0.3836, train/hateful_memes/cross_entropy/avg: 0.5328, train/total_loss: 0.3836, train/total_loss/avg: 0.5328, max mem: 7139.0, experiment: run, epoch: 5, num_updates: 2500, iterations: 2500, max_updates: 3000, lr: 0.00001, ups: 1.92, time: 26s 178ms, time_since_start: 27m 54s 327ms, eta: 04m 39s 585ms
+2021-07-24T23:17:08 | mmf.trainers.core.training_loop: Evaluation time. Running on full validation set...
+2021-07-24T23:17:08 | mmf.common.test_reporter: Predicting for hateful_memes
+2021-07-24T23:17:14 | mmf.trainers.core.evaluation_loop: Finished training. Loaded 34
+2021-07-24T23:17:14 | mmf.trainers.core.evaluation_loop:  -- skipped 0 batches.
+2021-07-24T23:17:14 | mmf.utils.checkpoint: Checkpoint save operation started!
+2021-07-24T23:17:21 | mmf.utils.checkpoint: Saving current checkpoint
+2021-07-24T23:17:49 | mmf.utils.checkpoint: Checkpoint save operation finished!
+2021-07-24T23:17:49 | mmf.trainers.callbacks.logistics: progress: 2500/3000, val/hateful_memes/cross_entropy: 0.9763, val/total_loss: 0.9763, val/hateful_memes/accuracy: 0.6352, val/hateful_memes/binary_f1: 0.3367, val/hateful_memes/roc_auc: 0.6099, num_updates: 2500, epoch: 5, iterations: 2500, max_updates: 3000, val_time: 41s 350ms, best_update: 2000, best_iteration: 2000, best_val/hateful_memes/roc_auc: 0.627647
+2021-07-24T23:18:16 | mmf.trainers.callbacks.logistics: progress: 2550/3000, train/hateful_memes/cross_entropy: 0.3752, train/hateful_memes/cross_entropy/avg: 0.5256, train/total_loss: 0.3752, train/total_loss/avg: 0.5256, max mem: 7139.0, experiment: run, epoch: 5, num_updates: 2550, iterations: 2550, max_updates: 3000, lr: 0., ups: 1.92, time: 26s 633ms, time_since_start: 29m 02s 313ms, eta: 04m 16s 000ms
+2021-07-24T23:18:42 | mmf.trainers.callbacks.logistics: progress: 2600/3000, train/hateful_memes/cross_entropy: 0.3686, train/hateful_memes/cross_entropy/avg: 0.5224, train/total_loss: 0.3686, train/total_loss/avg: 0.5224, max mem: 7139.0, experiment: run, epoch: 5, num_updates: 2600, iterations: 2600, max_updates: 3000, lr: 0., ups: 1.92, time: 26s 173ms, time_since_start: 29m 28s 487ms, eta: 03m 43s 628ms
+2021-07-24T23:19:08 | mmf.trainers.callbacks.logistics: progress: 2650/3000, train/hateful_memes/cross_entropy: 0.3604, train/hateful_memes/cross_entropy/avg: 0.5147, train/total_loss: 0.3604, train/total_loss/avg: 0.5147, max mem: 7139.0, experiment: run, epoch: 5, num_updates: 2650, iterations: 2650, max_updates: 3000, lr: 0., ups: 1.92, time: 26s 226ms, time_since_start: 29m 54s 713ms, eta: 03m 16s 072ms
+2021-07-24T23:19:35 | mmf.trainers.callbacks.logistics: progress: 2700/3000, train/hateful_memes/cross_entropy: 0.3579, train/hateful_memes/cross_entropy/avg: 0.5076, train/total_loss: 0.3579, train/total_loss/avg: 0.5076, max mem: 7139.0, experiment: run, epoch: 6, num_updates: 2700, iterations: 2700, max_updates: 3000, lr: 0., ups: 1.92, time: 26s 772ms, time_since_start: 30m 21s 486ms, eta: 02m 51s 560ms
+2021-07-24T23:20:01 | mmf.trainers.callbacks.logistics: progress: 2750/3000, train/hateful_memes/cross_entropy: 0.3421, train/hateful_memes/cross_entropy/avg: 0.5010, train/total_loss: 0.3421, train/total_loss/avg: 0.5010, max mem: 7139.0, experiment: run, epoch: 6, num_updates: 2750, iterations: 2750, max_updates: 3000, lr: 0., ups: 1.92, time: 26s 232ms, time_since_start: 30m 47s 719ms, eta: 02m 20s 083ms
+2021-07-24T23:20:28 | mmf.trainers.callbacks.logistics: progress: 2800/3000, train/hateful_memes/cross_entropy: 0.3351, train/hateful_memes/cross_entropy/avg: 0.4959, train/total_loss: 0.3351, train/total_loss/avg: 0.4959, max mem: 7139.0, experiment: run, epoch: 6, num_updates: 2800, iterations: 2800, max_updates: 3000, lr: 0., ups: 1.92, time: 26s 298ms, time_since_start: 31m 14s 017ms, eta: 01m 52s 345ms
+2021-07-24T23:20:54 | mmf.trainers.callbacks.logistics: progress: 2850/3000, train/hateful_memes/cross_entropy: 0.3260, train/hateful_memes/cross_entropy/avg: 0.4879, train/total_loss: 0.3260, train/total_loss/avg: 0.4879, max mem: 7139.0, experiment: run, epoch: 6, num_updates: 2850, iterations: 2850, max_updates: 3000, lr: 0., ups: 1.92, time: 26s 383ms, time_since_start: 31m 40s 401ms, eta: 01m 24s 532ms
+2021-07-24T23:21:20 | mmf.trainers.callbacks.logistics: progress: 2900/3000, train/hateful_memes/cross_entropy: 0.2558, train/hateful_memes/cross_entropy/avg: 0.4804, train/total_loss: 0.2558, train/total_loss/avg: 0.4804, max mem: 7139.0, experiment: run, epoch: 6, num_updates: 2900, iterations: 2900, max_updates: 3000, lr: 0., ups: 1.92, time: 26s 297ms, time_since_start: 32m 06s 698ms, eta: 56s 170ms
+2021-07-24T23:21:47 | mmf.trainers.callbacks.logistics: progress: 2950/3000, train/hateful_memes/cross_entropy: 0.2138, train/hateful_memes/cross_entropy/avg: 0.4746, train/total_loss: 0.2138, train/total_loss/avg: 0.4746, max mem: 7139.0, experiment: run, epoch: 6, num_updates: 2950, iterations: 2950, max_updates: 3000, lr: 0., ups: 1.92, time: 26s 253ms, time_since_start: 32m 32s 952ms, eta: 28s 038ms
+2021-07-24T23:22:13 | mmf.trainers.callbacks.checkpoint: Checkpoint time. Saving a checkpoint.
+2021-07-24T23:22:13 | mmf.utils.checkpoint: Checkpoint save operation started!
+2021-07-24T23:22:20 | mmf.utils.checkpoint: Saving current checkpoint
+2021-07-24T23:22:48 | mmf.utils.checkpoint: Checkpoint save operation finished!
+2021-07-24T23:22:48 | mmf.trainers.callbacks.logistics: progress: 3000/3000, train/hateful_memes/cross_entropy: 0.2138, train/hateful_memes/cross_entropy/avg: 0.4732, train/total_loss: 0.2138, train/total_loss/avg: 0.4732, max mem: 7139.0, experiment: run, epoch: 6, num_updates: 3000, iterations: 3000, max_updates: 3000, lr: 0., ups: 0.82, time: 01m 01s 451ms, time_since_start: 33m 34s 406ms, eta: 0ms
+2021-07-24T23:22:48 | mmf.trainers.core.training_loop: Evaluation time. Running on full validation set...
+2021-07-24T23:22:48 | mmf.common.test_reporter: Predicting for hateful_memes
+2021-07-24T23:22:54 | mmf.trainers.core.evaluation_loop: Finished training. Loaded 34
+2021-07-24T23:22:54 | mmf.trainers.core.evaluation_loop:  -- skipped 0 batches.
+2021-07-24T23:22:54 | mmf.utils.checkpoint: Checkpoint save operation started!
+2021-07-24T23:23:11 | mmf.utils.checkpoint: Saving current checkpoint
+2021-07-24T23:23:40 | mmf.utils.checkpoint: Checkpoint save operation finished!
+2021-07-24T23:23:41 | mmf.trainers.callbacks.logistics: progress: 3000/3000, val/hateful_memes/cross_entropy: 1.2707, val/total_loss: 1.2707, val/hateful_memes/accuracy: 0.6259, val/hateful_memes/binary_f1: 0.3355, val/hateful_memes/roc_auc: 0.6168, num_updates: 3000, epoch: 6, iterations: 3000, max_updates: 3000, val_time: 52s 500ms, best_update: 2000, best_iteration: 2000, best_val/hateful_memes/roc_auc: 0.627647
+2021-07-24T23:23:41 | mmf.trainers.core.training_loop: Stepping into final validation check
+2021-07-24T23:23:41 | mmf.utils.checkpoint: Restoring checkpoint
+2021-07-24T23:23:41 | mmf.utils.checkpoint: Loading checkpoint
+2021-07-24T23:24:10 | mmf.utils.checkpoint: Checkpoint loaded.
+2021-07-24T23:24:10 | mmf.utils.checkpoint: Current num updates: 2000
+2021-07-24T23:24:10 | mmf.utils.checkpoint: Current iteration: 2000
+2021-07-24T23:24:10 | mmf.utils.checkpoint: Current epoch: 4
+2021-07-24T23:24:12 | mmf.trainers.mmf_trainer: Starting inference on test set
+2021-07-24T23:24:12 | mmf.common.test_reporter: Predicting for hateful_memes
+100% 125/125 [00:19<00:00,  6.41it/s]
+2021-07-24T23:24:31 | mmf.trainers.core.evaluation_loop: Finished training. Loaded 125
+2021-07-24T23:24:31 | mmf.trainers.core.evaluation_loop:  -- skipped 0 batches.
+2021-07-24T23:24:31 | mmf.trainers.callbacks.logistics: progress: 2000/3000, test/hateful_memes/cross_entropy: 0.7138, test/total_loss: 0.7138, test/hateful_memes/accuracy: 0.6380, test/hateful_memes/binary_f1: 0.4829, test/hateful_memes/roc_auc: 0.6469
+2021-07-24T23:24:31 | mmf.trainers.callbacks.logistics: Finished run in 35m 17s 744ms
+

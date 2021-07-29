@@ -40,7 +40,7 @@ for _, _, files in os.walk(input_path):
     # Files to augment is an array of file names that we will apply transform to
     # All files in files array not in files_to_augment array will be copied without augmentation
     if replace_ratio is not None:
-        files_to_augment = random.sample(files, replace_ratio * len(files))
+        files_to_augment = random.sample(files, int(replace_ratio * len(files)))
     else:
         files_to_augment = files.copy()
 

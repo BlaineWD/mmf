@@ -2,11 +2,21 @@
 
 Script to augment the hateful memes dataset
 
+## Conda
+
 Create conda environment: `conda env create -f requirements.yml`
 
 Activate conda environment: `conda activate image_augmentation`
 
-Run these from project root (up a level):
+## Setup
+
+Download the unmodified hateful_memes.zip and unzip it to project root (up a folder from this README).  Check that it is a folder called `hateful_memes` with a `data` folder inside
+
+Make sure that `hateful_memes_augmented` folder does not exist or is empty
+
+## Running
+
+Run these from project root :
 
 Run script and replace all images with randomly augmented versions of images: `python image_augmentation/randomly_augment_images.py`
 

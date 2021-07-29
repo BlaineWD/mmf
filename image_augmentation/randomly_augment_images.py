@@ -5,6 +5,7 @@ import argparse
 import random
 import shutil
 from tqdm import tqdm
+import sys
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--input_path', type=str, default='hateful_memes', help='Input path of unaltered hateful memes dataset')
@@ -15,6 +16,10 @@ args = parser.parse_args()
 replace_ratio = args.replace_ratio
 input_path = args.input_path
 output_path = args.output_path
+
+if not os.path.exists(input_path):
+    print(f'Input path {input_path} does not exist, please make sure you unzipped the original hateful memes to this path')
+    sys.exit()
 
 print(f'Creating augmented dataset from {input_path} and saving to {output_path}...')
 

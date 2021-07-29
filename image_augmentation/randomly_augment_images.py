@@ -36,8 +36,7 @@ if not os.path.exists(output_path):
 
 print(f'Creating augmented dataset from {input_path} and saving to {output_path}...')
 for _, _, files in os.walk(input_path):
-    files = files[:100]
-    # Files to augment is an array of file names that we will apply transform to
+    # files_to_augment is an array of file names that we will apply transform to
     # All files in files array not in files_to_augment array will be copied without augmentation
     if replace_ratio is not None:
         files_to_augment = random.sample(files, int(replace_ratio * len(files)))

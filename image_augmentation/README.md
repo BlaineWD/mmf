@@ -10,16 +10,20 @@ Activate conda environment: `conda activate image_augmentation`
 
 ## Setup
 
-Download the unmodified hateful_memes.zip and unzip it to project root (up a folder from this README).  Check that it is a folder called `hateful_memes` with a `data` folder inside
-
-Make sure that `hateful_memes_augmented` folder does not exist or is empty
+1. Download the unmodified hateful_memes.zip
+2. Unzip it to project root (up a folder from this README).  Check that it is a folder called `hateful_memes` with a `data` folder inside.
+3. Make sure that `hateful_memes_augmented` folder does not exist or is empty
 
 ## Running
 
-Run these from project root :
+Run these from project root:
 
 Run script and replace all images with randomly augmented versions of images: `python image_augmentation/randomly_augment_images.py`
 
 Run script and replace 50% of images with randomly augmented versions of images: `python image_augmentation/randomly_augment_images.py --replace_ratio 0.5`
 
 You can also use `--input_path` and `--output_path` to set image folder paths
+
+## After 
+
+You can then zip up `hateful_memes_augmented/data` into a `.zip` to be used by `mmf_config_hm` CLI

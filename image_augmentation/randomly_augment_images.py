@@ -16,10 +16,12 @@ replace_ratio = args.replace_ratio
 input_path = args.input_path
 output_path = args.output_path
 
+print(f'Creating augmented dataset from {input_path} and saving to {output_path}...')
 
 if replace_ratio is not None:
     print(f'Replace ratio is {replace_ratio}')
 
+# TODO: Remove some of these or lessen their impact since they are pretty drastic transformations
 transform = A.Compose([
     A.CLAHE(),
     A.RandomRotate90(),
@@ -31,8 +33,6 @@ transform = A.Compose([
     A.GridDistortion(),
     A.HueSaturationValue()
 ])
-
-print(f'Creating augmented dataset from {input_path} and saving to {output_path}...')
 
 print('Coping jsonl and other files...')
 input_data_path = os.path.join(input_path, 'data')

@@ -2,6 +2,15 @@ import cv2
 import albumentations as A
 import matplotlib.pyplot as plt
 import os
+import argparse
+import random
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--replace_ratio', type=float, help='What proportion of hateful_memes images to replace with randomly augmented versions of images')
+
+args = parser.parse_args()
+replace_ratio = args.replace_ratio
+print(replace_ratio)
 
 transform = A.Compose([
     A.CLAHE(),
@@ -22,6 +31,8 @@ if not os.path.exists(augmented_image_output_path):
 
 DEV_LIMIT = 10
 for _, _, files in os.walk(image_input_path):
+    if replace_ratio is not None:
+        files = random.sample(files, replace_ratio * len(files))
     for file_name in files:
         image = cv2.imread(os.path.join(image_input_path, file_name))
 

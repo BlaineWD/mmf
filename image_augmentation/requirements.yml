@@ -1,0 +1,7 @@
+name: image_augmentation
+channels:
+  - conda-forge
+dependencies:
+  - opencv
+  - matplotlib
+  - albumentations

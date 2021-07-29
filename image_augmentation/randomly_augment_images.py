@@ -54,7 +54,6 @@ output_images_path = os.path.join(output_data_path, 'img')
 if not os.path.exists(output_images_path):
     os.makedirs(output_images_path)
 for _, _, files in os.walk(input_images_path):
-    files = files[:10]
     # files_to_augment is an array of file names that we will apply transform to
     # All files in files array not in files_to_augment array will be copied without augmentation
     if replace_ratio is not None:

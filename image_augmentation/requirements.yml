@@ -1,0 +1,9 @@
+name: image_augmentation
+channels:
+  - conda-forge
+dependencies:
+  - python=3.9
+  - opencv=4.5
+  - matplotlib=3.4
+  - albumentations=1.0
+  - tqdm=4.61

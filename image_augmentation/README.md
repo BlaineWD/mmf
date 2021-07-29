@@ -26,4 +26,4 @@ You can also use `--input_path` and `--output_path` to set image folder paths
 
 ## After 
 
-You can then zip up `hateful_memes_augmented/data` into a `.zip` to be used by `mmf_config_hm` CLI
+You can then zip up `hateful_memes_augmented/data` into a `.zip` to be used by `mmf_convert_hm` CLI

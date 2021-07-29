@@ -39,7 +39,7 @@ transform = A.Compose([
     A.HueSaturationValue()
 ])
 
-print('Coping jsonl and other files...')
+print('Copying jsonl and other files...')
 input_data_path = os.path.join(input_path, 'data')
 output_data_path = os.path.join(output_path, 'data')
 if not os.path.exists(output_data_path):

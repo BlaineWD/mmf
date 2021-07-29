@@ -17,7 +17,8 @@ replace_ratio = args.replace_ratio
 input_path = args.input_path
 output_path = args.output_path
 
-print(f'Replace ratio is {replace_ratio}')
+if replace_ratio is not None:
+    print(f'Replace ratio is {replace_ratio}')
 
 transform = A.Compose([
     A.CLAHE(),

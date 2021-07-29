@@ -11,7 +11,7 @@ Activate conda environment: `conda activate image_augmentation`
 ## Setup
 
 1. Download the unmodified hateful_memes.zip
-2. Unzip it to project root (up a folder from this README).  Check that it is a folder called `hateful_memes` with a `data` folder inside.
+2. Unzip it to project root (up a folder from this README).  Check that it is a folder called `hateful_memes` with a `data` folder inside. Example: `unzip -q -d hateful_memes ateful_memes.zip`
 3. Make sure that `hateful_memes_augmented` folder does not exist or is empty
 
 ## Running

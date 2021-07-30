@@ -1,0 +1,7 @@
+name: plotting_utils
+channels:
+  - conda-forge
+dependencies:
+  - python=3.9
+  - matplotlib=3.4
+  - tqdm=4.61

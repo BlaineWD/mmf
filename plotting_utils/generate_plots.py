@@ -20,9 +20,10 @@ print(f'Reading in experiment logs from {input_path} and saving plots to {output
 if not os.path.exists(output_path):
     os.makedirs(output_path)
 
-train_roc_auc = 'train/hateful_memes/roc_auc'
-validation_roc_auc = 'val/hateful_memes/roc_auc'
-test_roc_auc = 'test/hateful_memes/roc_auc'
+roc_auc_key = 'hateful_memes/roc_auc'
+train_roc_auc = f'train/{roc_auc_key}'
+validation_roc_auc = f'val/{roc_auc_key}'
+test_roc_auc = f'test/{roc_auc_key}'
 logistics_line_start = 'mmf.trainers.callbacks.logistics : {'
 
 log_files = os.listdir(input_path)

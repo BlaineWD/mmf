@@ -99,3 +99,5 @@ for key in tqdm(metrics.keys()):
     plt.ylabel('Cross Entropy Loss')
     plt.savefig(os.path.join(output_path, f'{key.replace("/", "-")}-train-cross-entropy.png'))
     plt.clf()
+
+# TODO: Plot validation and test loss?

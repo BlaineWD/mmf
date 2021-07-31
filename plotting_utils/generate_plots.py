@@ -30,11 +30,16 @@ cross_entropy_key = 'hateful_memes/cross_entropy'
 train_cross_entropy = f'train/{cross_entropy_key}'
 validation_cross_entropy = f'val/{cross_entropy_key}'
 test_cross_entropy = f'test/{cross_entropy_key}'
+accuracy_key = 'hateful_memes/accuracy'
+train_accuracy = f'train/{accuracy_key}'
+validation_accuracy = f'val/{accuracy_key}'
+test_accuracy = f'test/{accuracy_key}'
 logistics_line_start = 'mmf.trainers.callbacks.logistics : {'
 
 log_files = os.listdir(input_path)
 metrics = {}
-epoch_step = None
+train_epoch_step = None
+validation_epoch_step = None
 print(f'Reading in experiment logs from {input_path}...')
 for log_file in tqdm(log_files):
     logistics_lines = []
@@ -44,7 +49,8 @@ for log_file in tqdm(log_files):
         config_file = model_description_line[model_description_line.find('config=') + 7:model_description_line.find("', 'model")]
         metrics[config_file] = {
             'train_roc': [], 'validation_roc': [], 'test_roc': [],
-            'train_cross_entropy': [], 'validation_cross_entropy': [], 'test_cross_entropy': []
+            'train_cross_entropy': [], 'validation_cross_entropy': [], 'test_cross_entropy': [],
+            'train_accuracy': [], 'validation_accuracy': [], 'test_accuracy': []
         }
 
         for line in log_lines[2:]:
@@ -59,12 +65,13 @@ for log_file in tqdm(log_files):
         current_metrics = json.loads(current_metrics_string)
         progress = current_metrics['progress']
 
-        if epoch_step is None:
-            epoch_step = int(progress[:progress.find('/')])
-
         if train_roc_auc in current_metrics:
+            if train_epoch_step is None:
+                train_epoch_step = int(progress[:progress.find('/')])
             metrics[config_file]['train_roc'].append(float(current_metrics[train_roc_auc]))
         elif validation_roc_auc in current_metrics:
+            if validation_epoch_step is None:
+                validation_epoch_step = int(progress[:progress.find('/')])
             metrics[config_file]['validation_roc'].append(float(current_metrics[validation_roc_auc]))
         elif test_roc_auc in current_metrics:
             metrics[config_file]['test_roc'].append(float(current_metrics[test_roc_auc]))
@@ -76,28 +83,81 @@ for log_file in tqdm(log_files):
         elif test_cross_entropy in current_metrics:
             metrics[config_file]['test_cross_entropy'].append(float(current_metrics[test_cross_entropy]))
 
+        if train_accuracy in current_metrics:
+            metrics[config_file]['train_accuracy'].append(float(current_metrics[train_accuracy]))
+        elif validation_accuracy in current_metrics:
+            metrics[config_file]['validation_accuracy'].append(float(current_metrics[validation_accuracy]))
+        elif test_accuracy in current_metrics:
+            metrics[config_file]['test_accuracy'].append(float(current_metrics[test_accuracy]))
+
 print('\nFound metrics:')
 print(metrics)
 
-print(f'\nWriting plots to {output_path}...')
-figure(figsize=(8, 6))
-for key in tqdm(metrics.keys()):
-    train_roc_metrics = metrics[key]['train_roc']
-    epoch_increments = [(i + 1) * epoch_step for i in range(len(train_roc_metrics))]
-    plt.plot(epoch_increments, train_roc_metrics)
-    plt.title(f'ROC AUC for {key}')
-    plt.xlabel('Epoch')
+config_to_baseline_name_mapping = {
+    'projects/hateful_memes/configs/unimodal/image.yaml': 'Image-Grid',
+    'projects/hateful_memes/configs/unimodal/with_features.yaml': 'Image-Region',
+    'projects/hateful_memes/configs/unimodal/bert.yaml': 'Text BERT',
+    'projects/hateful_memes/configs/late_fusion/defaults.yaml': 'Late Fusion',
+    'projects/hateful_memes/configs/mmbt/defaults.yaml': 'MMBT-Grid',
+    'projects/hateful_memes/configs/mmbt/with_features.yaml': 'MMBT-Region',
+    'projects/hateful_memes/configs/vilbert/defaults.yaml': 'ViLBERT',
+    'projects/hateful_memes/configs/visual_bert/direct.yaml': 'Visual BERT',
+    'projects/hateful_memes/configs/vilbert/from_cc.yaml': 'ViLBERT CC',
+    'projects/hateful_memes/configs/visual_bert/from_coco.yaml': 'Visual BERT COCO'
+}
+
+
+def write_plots(metrics, metric_type, epoch_step, output_path):
+    figure(figsize=(8, 6))
+    x_axis_name = 'Iteration'
+    print(f'\nWriting {metric_type} plots to {output_path}...')
+    metric_config_names = metrics.keys()
+    baseline_names = []
+    for key in tqdm(metric_config_names):
+        baseline_name = config_to_baseline_name_mapping[key]
+        baseline_names.append(baseline_name)
+
+    plt.title(f'{metric_type.title()} ROC AUC over baseline models')
+    plt.xlabel(x_axis_name)
     plt.ylabel('ROC AUC')
-    plt.savefig(os.path.join(output_path, f'{key.replace("/", "-")}-train-roc-auc.png'))
+
+    for key in tqdm(metric_config_names):
+        roc_metrics = metrics[key][f'{metric_type}_roc']
+        epoch_increments = [(i + 1) * epoch_step for i in range(len(roc_metrics))]
+        plt.plot(epoch_increments, roc_metrics)
+
+    plt.legend(baseline_names)
+    plt.savefig(os.path.join(output_path, f'{metric_type}-roc-auc.png'))
     plt.clf()
 
-    train_cross_entropy = metrics[key]['train_cross_entropy']
-    epoch_increments = [(i + 1) * epoch_step for i in range(len(train_cross_entropy))]
-    plt.plot(epoch_increments, train_cross_entropy)
-    plt.title(f'Cross Entropy Loss for {key}')
-    plt.xlabel('Epoch')
+    plt.title(f'{metric_type.title()} Cross Entropy Loss over baseline models')
+    plt.xlabel(x_axis_name)
     plt.ylabel('Cross Entropy Loss')
-    plt.savefig(os.path.join(output_path, f'{key.replace("/", "-")}-train-cross-entropy.png'))
+
+    for key in tqdm(metric_config_names):
+        cross_entropy_metrics = metrics[key][f'{metric_type}_cross_entropy']
+        epoch_increments = [(i + 1) * epoch_step for i in range(len(cross_entropy_metrics))]
+        plt.plot(epoch_increments, cross_entropy_metrics)
+
+    plt.legend(baseline_names)
+    plt.savefig(os.path.join(output_path, f'{metric_type}-cross-entropy.png'))
     plt.clf()
 
-# TODO: Plot validation and test loss?
+    plt.title(f'{metric_type.title()} Accuracy over baseline models')
+    plt.xlabel(x_axis_name)
+    plt.ylabel('Accuracy')
+
+    for key in tqdm(metric_config_names):
+        accuracy_metrics = metrics[key][f'{metric_type}_accuracy']
+        epoch_increments = [(i + 1) * epoch_step for i in range(len(accuracy_metrics))]
+        plt.plot(epoch_increments, accuracy_metrics)
+
+    plt.legend(baseline_names)
+    plt.savefig(os.path.join(output_path, f'{metric_type}-accuracy.png'))
+    plt.clf()
+
+
+write_plots(metrics, 'train', train_epoch_step, output_path)
+write_plots(metrics, 'validation', validation_epoch_step, output_path)
+
+# TODO: Figure out what other metrics we want to add

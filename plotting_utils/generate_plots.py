@@ -34,7 +34,8 @@ logistics_line_start = 'mmf.trainers.callbacks.logistics : {'
 
 log_files = os.listdir(input_path)
 metrics = {}
-epoch_step = None
+train_epoch_step = None
+validation_epoch_step = None
 print(f'Reading in experiment logs from {input_path}...')
 for log_file in tqdm(log_files):
     logistics_lines = []
@@ -59,12 +60,13 @@ for log_file in tqdm(log_files):
         current_metrics = json.loads(current_metrics_string)
         progress = current_metrics['progress']
 
-        if epoch_step is None:
-            epoch_step = int(progress[:progress.find('/')])
-
         if train_roc_auc in current_metrics:
+            if train_epoch_step is None:
+                train_epoch_step = int(progress[:progress.find('/')])
             metrics[config_file]['train_roc'].append(float(current_metrics[train_roc_auc]))
         elif validation_roc_auc in current_metrics:
+            if validation_epoch_step is None:
+                validation_epoch_step = int(progress[:progress.find('/')])
             metrics[config_file]['validation_roc'].append(float(current_metrics[validation_roc_auc]))
         elif test_roc_auc in current_metrics:
             metrics[config_file]['test_roc'].append(float(current_metrics[test_roc_auc]))
@@ -79,25 +81,30 @@ for log_file in tqdm(log_files):
 print('\nFound metrics:')
 print(metrics)
 
-print(f'\nWriting plots to {output_path}...')
-figure(figsize=(8, 6))
-for key in tqdm(metrics.keys()):
-    train_roc_metrics = metrics[key]['train_roc']
-    epoch_increments = [(i + 1) * epoch_step for i in range(len(train_roc_metrics))]
-    plt.plot(epoch_increments, train_roc_metrics)
-    plt.title(f'ROC AUC for {key}')
-    plt.xlabel('Epoch')
-    plt.ylabel('ROC AUC')
-    plt.savefig(os.path.join(output_path, f'{key.replace("/", "-")}-train-roc-auc.png'))
-    plt.clf()
 
-    train_cross_entropy = metrics[key]['train_cross_entropy']
-    epoch_increments = [(i + 1) * epoch_step for i in range(len(train_cross_entropy))]
-    plt.plot(epoch_increments, train_cross_entropy)
-    plt.title(f'Cross Entropy Loss for {key}')
-    plt.xlabel('Epoch')
-    plt.ylabel('Cross Entropy Loss')
-    plt.savefig(os.path.join(output_path, f'{key.replace("/", "-")}-train-cross-entropy.png'))
-    plt.clf()
+def write_plots(metrics, metric_type, epoch_step, output_path):
+    figure(figsize=(8, 6))
 
-# TODO: Plot validation and test loss?
+    print(f'\nWriting {metric_type} plots to {output_path}...')
+    for key in tqdm(metrics.keys()):
+        roc_metrics = metrics[key][f'{metric_type}_roc']
+        epoch_increments = [(i + 1) * epoch_step for i in range(len(roc_metrics))]
+        plt.plot(epoch_increments, roc_metrics)
+        plt.title(f'{metric_type.title()} ROC AUC for {key}')
+        plt.xlabel('Epoch')
+        plt.ylabel('ROC AUC')
+        plt.savefig(os.path.join(output_path, f'{key.replace("/", "-")}-{metric_type}-roc-auc.png'))
+        plt.clf()
+
+        cross_entropy_metrics = metrics[key][f'{metric_type}_cross_entropy']
+        epoch_increments = [(i + 1) * epoch_step for i in range(len(cross_entropy_metrics))]
+        plt.plot(epoch_increments, cross_entropy_metrics)
+        plt.title(f'{metric_type.title()} Cross Entropy Loss for {key}')
+        plt.xlabel('Epoch')
+        plt.ylabel('Cross Entropy Loss')
+        plt.savefig(os.path.join(output_path, f'{key.replace("/", "-")}-{metric_type}-cross-entropy.png'))
+        plt.clf()
+
+
+write_plots(metrics, 'train', train_epoch_step, output_path)
+write_plots(metrics, 'validation', validation_epoch_step, output_path)

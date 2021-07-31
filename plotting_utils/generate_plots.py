@@ -30,6 +30,10 @@ cross_entropy_key = 'hateful_memes/cross_entropy'
 train_cross_entropy = f'train/{cross_entropy_key}'
 validation_cross_entropy = f'val/{cross_entropy_key}'
 test_cross_entropy = f'test/{cross_entropy_key}'
+accuracy_key = 'hateful_memes/accuracy'
+train_accuracy = f'train/{accuracy_key}'
+validation_accuracy = f'val/{accuracy_key}'
+test_accuracy = f'test/{accuracy_key}'
 logistics_line_start = 'mmf.trainers.callbacks.logistics : {'
 
 log_files = os.listdir(input_path)
@@ -45,7 +49,8 @@ for log_file in tqdm(log_files):
         config_file = model_description_line[model_description_line.find('config=') + 7:model_description_line.find("', 'model")]
         metrics[config_file] = {
             'train_roc': [], 'validation_roc': [], 'test_roc': [],
-            'train_cross_entropy': [], 'validation_cross_entropy': [], 'test_cross_entropy': []
+            'train_cross_entropy': [], 'validation_cross_entropy': [], 'test_cross_entropy': [],
+            'train_accuracy': [], 'validation_accuracy': [], 'test_accuracy': []
         }
 
         for line in log_lines[2:]:
@@ -78,9 +83,15 @@ for log_file in tqdm(log_files):
         elif test_cross_entropy in current_metrics:
             metrics[config_file]['test_cross_entropy'].append(float(current_metrics[test_cross_entropy]))
 
+        if train_accuracy in current_metrics:
+            metrics[config_file]['train_accuracy'].append(float(current_metrics[train_accuracy]))
+        elif validation_accuracy in current_metrics:
+            metrics[config_file]['validation_accuracy'].append(float(current_metrics[validation_accuracy]))
+        elif test_accuracy in current_metrics:
+            metrics[config_file]['test_accuracy'].append(float(current_metrics[test_accuracy]))
+
 print('\nFound metrics:')
 print(metrics)
-
 
 config_to_baseline_name_mapping = {
     'projects/hateful_memes/configs/unimodal/image.yaml': 'Image-Grid',
@@ -132,8 +143,21 @@ def write_plots(metrics, metric_type, epoch_step, output_path):
     plt.savefig(os.path.join(output_path, f'{metric_type}-cross-entropy.png'))
     plt.clf()
 
+    plt.title(f'{metric_type.title()} Accuracy over baseline models')
+    plt.xlabel(x_axis_name)
+    plt.ylabel('Accuracy')
+
+    for key in tqdm(metric_config_names):
+        accuracy_metrics = metrics[key][f'{metric_type}_accuracy']
+        epoch_increments = [(i + 1) * epoch_step for i in range(len(accuracy_metrics))]
+        plt.plot(epoch_increments, accuracy_metrics)
+
+    plt.legend(baseline_names)
+    plt.savefig(os.path.join(output_path, f'{metric_type}-accuracy.png'))
+    plt.clf()
+
 
 write_plots(metrics, 'train', train_epoch_step, output_path)
 write_plots(metrics, 'validation', validation_epoch_step, output_path)
 
-# TODO: Test plots as well
+# TODO: Figure out what other metrics we want to add

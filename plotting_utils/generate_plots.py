@@ -84,14 +84,14 @@ print(metrics)
 
 def write_plots(metrics, metric_type, epoch_step, output_path):
     figure(figsize=(8, 6))
-
+    x_axis_name = 'Iteration'
     print(f'\nWriting {metric_type} plots to {output_path}...')
     for key in tqdm(metrics.keys()):
         roc_metrics = metrics[key][f'{metric_type}_roc']
         epoch_increments = [(i + 1) * epoch_step for i in range(len(roc_metrics))]
         plt.plot(epoch_increments, roc_metrics)
         plt.title(f'{metric_type.title()} ROC AUC for {key}')
-        plt.xlabel('Epoch')
+        plt.xlabel(x_axis_name)
         plt.ylabel('ROC AUC')
         plt.savefig(os.path.join(output_path, f'{key.replace("/", "-")}-{metric_type}-roc-auc.png'))
         plt.clf()
@@ -100,7 +100,7 @@ def write_plots(metrics, metric_type, epoch_step, output_path):
         epoch_increments = [(i + 1) * epoch_step for i in range(len(cross_entropy_metrics))]
         plt.plot(epoch_increments, cross_entropy_metrics)
         plt.title(f'{metric_type.title()} Cross Entropy Loss for {key}')
-        plt.xlabel('Epoch')
+        plt.xlabel(x_axis_name)
         plt.ylabel('Cross Entropy Loss')
         plt.savefig(os.path.join(output_path, f'{key.replace("/", "-")}-{metric_type}-cross-entropy.png'))
         plt.clf()

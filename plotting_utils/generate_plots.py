@@ -120,6 +120,8 @@ def write_plots(metrics, metric_type, epoch_step, output_path):
     plt.title(f'{metric_type.title()} ROC AUC over baseline models')
     plt.xlabel(x_axis_name)
     plt.ylabel('ROC AUC')
+    if metric_type == 'validation':
+        plt.ylim(0.4, 0.75)
 
     for key in tqdm(metric_config_names):
         roc_metrics = metrics[key][f'{metric_type}_roc']

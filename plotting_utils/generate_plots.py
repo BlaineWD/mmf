@@ -95,31 +95,40 @@ config_to_baseline_name_mapping = {
     'projects/hateful_memes/configs/visual_bert/from_coco.yaml': 'Visual BERT COCO'
 }
 
+
 def write_plots(metrics, metric_type, epoch_step, output_path):
     figure(figsize=(8, 6))
     x_axis_name = 'Iteration'
     print(f'\nWriting {metric_type} plots to {output_path}...')
+
+    plt.title(f'{metric_type.title()} ROC AUC over baseline models')
+    plt.xlabel(x_axis_name)
+    plt.ylabel('ROC AUC')
+    baseline_names = []
     for key in tqdm(metrics.keys()):
         baseline_name = config_to_baseline_name_mapping[key]
-        baseline_file_prefix = baseline_name.replace(" ", "-").lower()
+        baseline_names.append(baseline_name)
 
         roc_metrics = metrics[key][f'{metric_type}_roc']
         epoch_increments = [(i + 1) * epoch_step for i in range(len(roc_metrics))]
         plt.plot(epoch_increments, roc_metrics)
-        plt.title(f'{metric_type.title()} ROC AUC for {baseline_name}')
-        plt.xlabel(x_axis_name)
-        plt.ylabel('ROC AUC')
-        plt.savefig(os.path.join(output_path, f'{baseline_file_prefix}-{metric_type}-roc-auc.png'))
-        plt.clf()
 
+    plt.legend(baseline_names)
+    plt.savefig(os.path.join(output_path, f'{metric_type}-roc-auc.png'))
+    plt.clf()
+
+    plt.title(f'{metric_type.title()} Cross Entropy Loss for {baseline_name}')
+    plt.xlabel(x_axis_name)
+    plt.ylabel('Cross Entropy Loss')
+
+    for key in tqdm(metrics.keys()):
         cross_entropy_metrics = metrics[key][f'{metric_type}_cross_entropy']
         epoch_increments = [(i + 1) * epoch_step for i in range(len(cross_entropy_metrics))]
         plt.plot(epoch_increments, cross_entropy_metrics)
-        plt.title(f'{metric_type.title()} Cross Entropy Loss for {baseline_name}')
-        plt.xlabel(x_axis_name)
-        plt.ylabel('Cross Entropy Loss')
-        plt.savefig(os.path.join(output_path, f'{baseline_file_prefix}-{metric_type}-cross-entropy.png'))
-        plt.clf()
+
+    plt.legend(baseline_names)
+    plt.savefig(os.path.join(output_path, f'{metric_type}-cross-entropy.png'))
+    plt.clf()
 
 
 write_plots(metrics, 'train', train_epoch_step, output_path)

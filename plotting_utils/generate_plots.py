@@ -120,6 +120,8 @@ def write_plots(metrics, metric_type, epoch_step, output_path):
     plt.title(f'{metric_type.title()} ROC AUC over baseline models')
     plt.xlabel(x_axis_name)
     plt.ylabel('ROC AUC')
+
+    # Uncomment this if there is extra space or top is cut off
     if metric_type == 'validation':
         plt.ylim(0.4, 0.75)
 
@@ -148,6 +150,10 @@ def write_plots(metrics, metric_type, epoch_step, output_path):
     plt.title(f'{metric_type.title()} Accuracy over baseline models')
     plt.xlabel(x_axis_name)
     plt.ylabel('Accuracy')
+
+    # Uncomment this if there is extra space or top is cut off
+    if metric_type == 'validation':
+        plt.ylim(0.5, 0.75)
 
     for key in tqdm(metric_config_names):
         accuracy_metrics = metrics[key][f'{metric_type}_accuracy']

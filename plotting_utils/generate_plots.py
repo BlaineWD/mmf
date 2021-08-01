@@ -108,7 +108,7 @@ config_to_baseline_name_mapping = {
 
 
 def write_plots(metrics, metric_type, epoch_step, output_path):
-    figure(figsize=(8, 6))
+    figure(figsize=(10, 8))
     x_axis_name = 'Iteration'
     print(f'\nWriting {metric_type} plots to {output_path}...')
     metric_config_names = metrics.keys()
@@ -121,12 +121,16 @@ def write_plots(metrics, metric_type, epoch_step, output_path):
     plt.xlabel(x_axis_name)
     plt.ylabel('ROC AUC')
 
+    # Uncomment this if there is extra space or top is cut off
+    if metric_type == 'validation':
+        plt.ylim(0.4, 0.75)
+
     for key in tqdm(metric_config_names):
         roc_metrics = metrics[key][f'{metric_type}_roc']
         epoch_increments = [(i + 1) * epoch_step for i in range(len(roc_metrics))]
         plt.plot(epoch_increments, roc_metrics)
 
-    plt.legend(baseline_names)
+    plt.legend(baseline_names, ncol=2, loc='best')
     plt.savefig(os.path.join(output_path, f'{metric_type}-roc-auc.png'))
     plt.clf()
 
@@ -139,7 +143,7 @@ def write_plots(metrics, metric_type, epoch_step, output_path):
         epoch_increments = [(i + 1) * epoch_step for i in range(len(cross_entropy_metrics))]
         plt.plot(epoch_increments, cross_entropy_metrics)
 
-    plt.legend(baseline_names)
+    plt.legend(baseline_names, ncol=2, loc='best')
     plt.savefig(os.path.join(output_path, f'{metric_type}-cross-entropy.png'))
     plt.clf()
 
@@ -147,12 +151,16 @@ def write_plots(metrics, metric_type, epoch_step, output_path):
     plt.xlabel(x_axis_name)
     plt.ylabel('Accuracy')
 
+    # Uncomment this if there is extra space or top is cut off
+    if metric_type == 'validation':
+        plt.ylim(0.5, 0.75)
+
     for key in tqdm(metric_config_names):
         accuracy_metrics = metrics[key][f'{metric_type}_accuracy']
         epoch_increments = [(i + 1) * epoch_step for i in range(len(accuracy_metrics))]
         plt.plot(epoch_increments, accuracy_metrics)
 
-    plt.legend(baseline_names)
+    plt.legend(baseline_names, ncol=2, loc='best')
     plt.savefig(os.path.join(output_path, f'{metric_type}-accuracy.png'))
     plt.clf()
 

@@ -84,10 +84,10 @@ def write_plots(metrics, metric_type, model_name, epoch_step, output_path):
 
     augmentation_levels = [0.0, 0.25, 0.5, 1.0]
     plt.legend(augmentation_levels, ncol=2, loc='best')
-    plt.savefig(os.path.join(output_path, f'{metric_type}-visual-bert-cross-entropy.png'))
+    plt.savefig(os.path.join(output_path, f'{metric_type}-{model_name.replace(" ", "-").lower()}-cross-entropy.png'))
     plt.clf()
 
-input_paths = [
+visual_bert_input_paths = [
     os.path.join('experiment_logs_unaugmented', 'train_2021_07_30T06_16_25.log'),
     os.path.join('experiment_logs_0.25_augmented', 'train_2021_08_01T07_29_23.log'),
     os.path.join('experiment_logs_0.5_augmented', 'train_2021_08_01T02_07_12.log'),
@@ -95,7 +95,18 @@ input_paths = [
     os.path.join('experiment_logs_augmented', 'train_2021_07_31T13_23_55.log')
 ]
 
-metrics, train_epoch_step, validation_epoch_step = get_metrics_from_logs(input_paths)
+metrics, train_epoch_step, validation_epoch_step = get_metrics_from_logs(visual_bert_input_paths)
 write_plots(metrics, 'train', 'Visual BERT', train_epoch_step, output_path)
 write_plots(metrics, 'validation', 'Visual BERT', validation_epoch_step, output_path)
 
+visual_bert_with_coco_input_paths = [
+    os.path.join('experiment_logs_unaugmented', 'train_2021_07_30T07_07_02.log'),
+    os.path.join('experiment_logs_0.25_augmented', 'train_2021_08_01T08_44_50.log'),
+    os.path.join('experiment_logs_0.5_augmented', 'train_2021_08_01T03_22_25.log'),
+    # os.path.join('experiment_logs_0.75_augmented', ''),
+    os.path.join('experiment_logs_augmented', 'train_2021_07_31T14_39_11.log')
+]
+
+metrics, train_epoch_step, validation_epoch_step = get_metrics_from_logs(visual_bert_with_coco_input_paths)
+write_plots(metrics, 'train', 'Visual BERT COCO', train_epoch_step, output_path)
+write_plots(metrics, 'validation', 'Visual BERT COCO', validation_epoch_step, output_path)

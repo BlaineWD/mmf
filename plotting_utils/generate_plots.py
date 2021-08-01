@@ -36,62 +36,70 @@ validation_accuracy = f'val/{accuracy_key}'
 test_accuracy = f'test/{accuracy_key}'
 logistics_line_start = 'mmf.trainers.callbacks.logistics : {'
 
-log_files = os.listdir(input_path)
-metrics = {}
-train_epoch_step = None
-validation_epoch_step = None
-print(f'Reading in experiment logs from {input_path}...')
-for log_file in tqdm(log_files):
-    logistics_lines = []
-    with open(os.path.join(input_path, log_file)) as f:
-        log_lines = f.readlines()
-        model_description_line = log_lines[1]
-        config_file = model_description_line[model_description_line.find('config=') + 7:model_description_line.find("', 'model")]
-        metrics[config_file] = {
-            'train_roc': [], 'validation_roc': [], 'test_roc': [],
-            'train_cross_entropy': [], 'validation_cross_entropy': [], 'test_cross_entropy': [],
-            'train_accuracy': [], 'validation_accuracy': [], 'test_accuracy': []
-        }
 
-        for line in log_lines[2:]:
-            if 'mmf.trainers.callbacks.logistics' in line:
-                logistics_lines.append(line)
+def get_metrics_from_logs(log_files):
+    metrics = {}
+    train_epoch_step = None
+    validation_epoch_step = None
+    print(f'Reading in experiment logs from {input_path}...')
+    for log_file in tqdm(log_files):
+        logistics_lines = []
+        with open(os.path.join(input_path, log_file)) as f:
+            log_lines = f.readlines()
+            model_description_line = log_lines[1]
+            config_file = model_description_line[
+                          model_description_line.find('config=') + 7:model_description_line.find("', 'model")]
+            metrics[config_file] = {
+                'train_roc': [], 'validation_roc': [], 'test_roc': [],
+                'train_cross_entropy': [], 'validation_cross_entropy': [], 'test_cross_entropy': [],
+                'train_accuracy': [], 'validation_accuracy': [], 'test_accuracy': []
+            }
 
-    for logistics_line in logistics_lines:
-        if 'Finished run' in logistics_line:
-            continue
+            for line in log_lines[2:]:
+                if 'mmf.trainers.callbacks.logistics' in line:
+                    logistics_lines.append(line)
 
-        current_metrics_string = logistics_line[logistics_line.find(logistics_line_start) + len(logistics_line_start) - 1:]
-        current_metrics = json.loads(current_metrics_string)
-        progress = current_metrics['progress']
+        for logistics_line in logistics_lines:
+            if 'Finished run' in logistics_line:
+                continue
 
-        if train_roc_auc in current_metrics:
-            if train_epoch_step is None:
-                train_epoch_step = int(progress[:progress.find('/')])
-            metrics[config_file]['train_roc'].append(float(current_metrics[train_roc_auc]))
-        elif validation_roc_auc in current_metrics:
-            if validation_epoch_step is None:
-                validation_epoch_step = int(progress[:progress.find('/')])
-            metrics[config_file]['validation_roc'].append(float(current_metrics[validation_roc_auc]))
-        elif test_roc_auc in current_metrics:
-            metrics[config_file]['test_roc'].append(float(current_metrics[test_roc_auc]))
+            current_metrics_string = logistics_line[
+                                     logistics_line.find(logistics_line_start) + len(logistics_line_start) - 1:]
+            current_metrics = json.loads(current_metrics_string)
+            progress = current_metrics['progress']
 
-        if train_cross_entropy in current_metrics:
-            metrics[config_file]['train_cross_entropy'].append(float(current_metrics[train_cross_entropy]))
-        elif validation_cross_entropy in current_metrics:
-            metrics[config_file]['validation_cross_entropy'].append(float(current_metrics[validation_cross_entropy]))
-        elif test_cross_entropy in current_metrics:
-            metrics[config_file]['test_cross_entropy'].append(float(current_metrics[test_cross_entropy]))
+            if train_roc_auc in current_metrics:
+                if train_epoch_step is None:
+                    train_epoch_step = int(progress[:progress.find('/')])
+                metrics[config_file]['train_roc'].append(float(current_metrics[train_roc_auc]))
+            elif validation_roc_auc in current_metrics:
+                if validation_epoch_step is None:
+                    validation_epoch_step = int(progress[:progress.find('/')])
+                metrics[config_file]['validation_roc'].append(float(current_metrics[validation_roc_auc]))
+            elif test_roc_auc in current_metrics:
+                metrics[config_file]['test_roc'].append(float(current_metrics[test_roc_auc]))
 
-        if train_accuracy in current_metrics:
-            metrics[config_file]['train_accuracy'].append(float(current_metrics[train_accuracy]))
-        elif validation_accuracy in current_metrics:
-            metrics[config_file]['validation_accuracy'].append(float(current_metrics[validation_accuracy]))
-        elif test_accuracy in current_metrics:
-            metrics[config_file]['test_accuracy'].append(float(current_metrics[test_accuracy]))
+            if train_cross_entropy in current_metrics:
+                metrics[config_file]['train_cross_entropy'].append(float(current_metrics[train_cross_entropy]))
+            elif validation_cross_entropy in current_metrics:
+                metrics[config_file]['validation_cross_entropy'].append(
+                    float(current_metrics[validation_cross_entropy]))
+            elif test_cross_entropy in current_metrics:
+                metrics[config_file]['test_cross_entropy'].append(float(current_metrics[test_cross_entropy]))
 
-print('\nFound metrics:')
-print(metrics)
+            if train_accuracy in current_metrics:
+                metrics[config_file]['train_accuracy'].append(float(current_metrics[train_accuracy]))
+            elif validation_accuracy in current_metrics:
+                metrics[config_file]['validation_accuracy'].append(float(current_metrics[validation_accuracy]))
+            elif test_accuracy in current_metrics:
+                metrics[config_file]['test_accuracy'].append(float(current_metrics[test_accuracy]))
+
+    print('\nFound metrics:')
+    print(metrics)
+    print(f'\nTrain step: {train_epoch_step}')
+    print(f'\nValidation step: {validation_epoch_step}')
+    return metrics, train_epoch_step, validation_epoch_step
+
 
 config_to_baseline_name_mapping = {
     'projects/hateful_memes/configs/unimodal/image.yaml': 'Image-Grid',
@@ -164,8 +172,11 @@ def write_plots(metrics, metric_type, epoch_step, output_path):
     plt.savefig(os.path.join(output_path, f'{metric_type}-accuracy.png'))
     plt.clf()
 
+log_files = os.listdir(input_path)
+metrics, train_epoch_step, validation_epoch_step = get_metrics_from_logs(log_files)
 
 write_plots(metrics, 'train', train_epoch_step, output_path)
 write_plots(metrics, 'validation', validation_epoch_step, output_path)
 
 # TODO: Figure out what other metrics we want to add
+

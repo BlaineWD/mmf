@@ -10,5 +10,5 @@ Activate conda environment: `conda activate plotting_utils`
 
 ## generate_plots.py
 
-Run `python generate_plots.py` to generate some plots
-
+Run `python generate_plots.py` to generate all plots for a single dataset
+Run `python generate_cross_entropy_plots` to generate plots comparing cross entropy loss for Visual BERT over all datasets.

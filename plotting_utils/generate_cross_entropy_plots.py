@@ -28,9 +28,6 @@ def get_metrics_from_logs(log_paths):
         logistics_lines = []
         with open(log_file) as f:
             log_lines = f.readlines()
-            model_description_line = log_lines[1]
-            config_file = model_description_line[
-                          model_description_line.find('config=') + 7:model_description_line.find("', 'model")]
             metrics[log_file] = {
                 'train_cross_entropy': [], 'validation_cross_entropy': [], 'test_cross_entropy': []
             }
@@ -82,7 +79,13 @@ def write_plots(metrics, metric_type, model_name, epoch_step, output_path):
         epoch_increments = [(i + 1) * epoch_step for i in range(len(cross_entropy_metrics))]
         plt.plot(epoch_increments, cross_entropy_metrics)
 
-    augmentation_levels = [0.0, 0.25, 0.5, 1.0]
+    augmentation_levels = [
+        "unmodified",
+        "25% of images transformed",
+        "50% of images transformed",
+        "75% of images transformed",
+        "100% of images transformed"
+    ]
     plt.legend(augmentation_levels, ncol=2, loc='best')
     plt.savefig(os.path.join(output_path, f'{metric_type}-{model_name.replace(" ", "-").lower()}-cross-entropy.png'))
     plt.clf()
@@ -91,7 +94,7 @@ visual_bert_input_paths = [
     os.path.join('experiment_logs_unaugmented', 'train_2021_07_30T06_16_25.log'),
     os.path.join('experiment_logs_0.25_augmented', 'train_2021_08_01T07_29_23.log'),
     os.path.join('experiment_logs_0.5_augmented', 'train_2021_08_01T02_07_12.log'),
-    # os.path.join('experiment_logs_0.75_augmented', ''),
+    os.path.join('experiment_logs_0.75_augmented', 'train_2021_08_01T16_22_49.log'),
     os.path.join('experiment_logs_augmented', 'train_2021_07_31T13_23_55.log')
 ]
 
@@ -103,7 +106,7 @@ visual_bert_with_coco_input_paths = [
     os.path.join('experiment_logs_unaugmented', 'train_2021_07_30T07_07_02.log'),
     os.path.join('experiment_logs_0.25_augmented', 'train_2021_08_01T08_44_50.log'),
     os.path.join('experiment_logs_0.5_augmented', 'train_2021_08_01T03_22_25.log'),
-    # os.path.join('experiment_logs_0.75_augmented', ''),
+    os.path.join('experiment_logs_0.75_augmented', 'train_2021_08_01T17_38_07.log'),
     os.path.join('experiment_logs_augmented', 'train_2021_07_31T14_39_11.log')
 ]
 
